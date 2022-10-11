@@ -6,6 +6,8 @@ import {
   ROUTE_PORTFOLIO,
   ROUTE_SIGN_IN,
 } from './routes';
+import GuestWrapper from './GuestWrapper';
+import SignIn from '../views/signIn/pages/SignIn';
 
 export default function RootRouter() {
   const location = useLocation();
@@ -18,7 +20,14 @@ export default function RootRouter() {
 
   return (
     <Routes>
-      <Route path={ROUTE_SIGN_IN} element={<h1>SIGN IN</h1>} />
+      <Route
+        path={ROUTE_SIGN_IN}
+        element={
+          <GuestWrapper>
+            <SignIn />
+          </GuestWrapper>
+        }
+      />
       <Route path={ROUTE_CONFIG} element={<Outlet />}>
         <Route index element={<h1>Config</h1>} />
         <Route path="add" element={<h1>Config add</h1>} />
