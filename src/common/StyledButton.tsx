@@ -51,6 +51,7 @@ type TransparentBlackButtonProps = {
   startIcon?: JSX.Element;
   fullWidth?: boolean;
   isSmallButton?: boolean;
+  isError?: boolean;
 };
 
 export default function StyledButton(props: TransparentBlackButtonProps) {
@@ -64,12 +65,13 @@ export default function StyledButton(props: TransparentBlackButtonProps) {
     startIcon,
     fullWidth = false,
     isSmallButton = false,
+    isError = false,
   } = props;
 
   const textColor = '#ffffff';
-  const background = '#4169e1';
-  const hoverBackground = '#164cee';
-  const borderColor = '#0d358c';
+  const background = isError ? '#FC8181' : '#4169e1';
+  const hoverBackground = isError ? 'rgba(252, 129, 129, 0.9)' : '#164cee';
+  const borderColor = isError ? '#FC8181' : '#0d358c';
 
   return (
     <MaterialStyledButton
