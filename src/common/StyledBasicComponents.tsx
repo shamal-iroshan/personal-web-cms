@@ -23,7 +23,6 @@ export const TableHeaderLabel = styled.span<{
   background?: string;
   color?: string;
 }>`
-  font-family: 'Inter', serif;
   font-weight: 500;
   font-size: 12px;
   line-height: 18px;

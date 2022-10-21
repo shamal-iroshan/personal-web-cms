@@ -52,6 +52,7 @@ type TransparentBlackButtonProps = {
   fullWidth?: boolean;
   isSmallButton?: boolean;
   isError?: boolean;
+  isErrorOutlined?: boolean;
 };
 
 export default function StyledButton(props: TransparentBlackButtonProps) {
@@ -66,12 +67,27 @@ export default function StyledButton(props: TransparentBlackButtonProps) {
     fullWidth = false,
     isSmallButton = false,
     isError = false,
+    isErrorOutlined = false,
   } = props;
 
-  const textColor = '#ffffff';
-  const background = isError ? '#FC8181' : '#4169e1';
-  const hoverBackground = isError ? 'rgba(252, 129, 129, 0.9)' : '#164cee';
-  const borderColor = isError ? '#FC8181' : '#0d358c';
+  let textColor = '#ffffff';
+  let background = '#4169e1';
+  let hoverBackground = '#164cee';
+  let borderColor = '#0d358c';
+
+  if (isError) {
+    textColor = '#ffffff';
+    background = '#FC8181';
+    hoverBackground = 'rgba(252, 129, 129, 0.9)';
+    borderColor = '#FC8181';
+  }
+
+  if (isErrorOutlined) {
+    textColor = '#FC8181';
+    background = '#ffffff';
+    hoverBackground = '#faf5f5';
+    borderColor = '#FC8181';
+  }
 
   return (
     <MaterialStyledButton

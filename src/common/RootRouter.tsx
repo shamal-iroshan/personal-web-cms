@@ -10,6 +10,8 @@ import GuestWrapper from './GuestWrapper';
 import SignIn from '../views/signIn/pages/SignIn';
 // eslint-disable-next-line import/no-cycle
 import AuthorizedWrapper from './AuthorizedWrapper';
+import Config from '../views/config/pages/Config';
+import AddConfig from '../views/config/pages/AddConfig';
 
 export default function RootRouter() {
   const location = useLocation();
@@ -38,9 +40,9 @@ export default function RootRouter() {
           </AuthorizedWrapper>
         }
       >
-        <Route index element={<h1>Config</h1>} />
-        <Route path="add" element={<h1>Config add</h1>} />
-        <Route path=":configId" element={<h1>Config edit</h1>} />
+        <Route index element={<Config />} />
+        <Route path="add" element={<AddConfig />} />
+        <Route path=":configId" element={<AddConfig />} />
       </Route>
       <Route
         path={ROUTE_PORTFOLIO}
