@@ -13,8 +13,8 @@ import AuthorizedWrapper from './AuthorizedWrapper';
 import Config from '../views/config/pages/Config';
 import AddConfig from '../views/config/pages/AddConfig';
 import Portfolio from '../views/portfolio/pages/Portfolio';
-import AddPortfolio from "../views/portfolio/pages/AddPortfolio";
-import Message from "../views/message/pages/Message";
+import AddPortfolio from '../views/portfolio/pages/AddPortfolio';
+import Message from '../views/message/pages/Message';
 
 export default function RootRouter() {
   const location = useLocation();

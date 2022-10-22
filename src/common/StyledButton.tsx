@@ -4,37 +4,37 @@ import React from 'react';
 import Loader from './Loader';
 
 interface ButtonProps {
-  textColor: string;
+  textcolor: string;
   background: string;
-  hoverBackground: string;
-  borderColor: string;
-  isSmallButton: boolean;
+  hoverbackground: string;
+  bordercolor: string;
+  issmallbutton: boolean;
 }
 
 const MaterialStyledButton = materialStyled(Button)(
   ({
-    textColor,
+    textcolor,
     background,
-    hoverBackground,
-    borderColor,
-    isSmallButton,
+    hoverbackground,
+    bordercolor,
+    issmallbutton,
   }: ButtonProps) => ({
-    color: textColor,
+    color: textcolor,
     background,
-    height: isSmallButton ? 37 : 44,
+    height: issmallbutton ? 37 : 44,
     minWidth: 112,
     padding: '0 20px',
     borderRadius: 12,
-    border: `1px solid ${borderColor}`,
+    border: `1px solid ${bordercolor}`,
     fontWeight: 800,
-    fontSize: isSmallButton ? 14 : 16,
+    fontSize: issmallbutton ? 14 : 16,
     textTransform: 'none',
     '&:hover': {
-      color: textColor,
-      background: hoverBackground,
+      color: textcolor,
+      background: hoverbackground,
     },
     '&:disabled': {
-      color: textColor,
+      color: textcolor,
       background,
       opacity: 0.6,
     },
@@ -95,11 +95,11 @@ export default function StyledButton(props: TransparentBlackButtonProps) {
       fullWidth={fullWidth}
       type={type}
       disabled={disabled || isLoading}
-      textColor={textColor}
+      textcolor={textColor}
       background={background}
-      hoverBackground={hoverBackground}
-      borderColor={borderColor}
-      isSmallButton={isSmallButton}
+      hoverbackground={hoverBackground}
+      bordercolor={borderColor}
+      issmallbutton={isSmallButton}
       onClick={onClick}
       endIcon={isLoading ? undefined : endIcon}
       startIcon={isLoading ? undefined : startIcon}

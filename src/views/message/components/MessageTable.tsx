@@ -91,8 +91,7 @@ const tempData = [
 ];
 
 export default function MessageTable() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const [isOpenDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
     useState(false);
@@ -135,7 +134,9 @@ export default function MessageTable() {
                 <CustomTableDataCell>{row.name}</CustomTableDataCell>
                 <CustomTableDataCell>{row.date}</CustomTableDataCell>
                 {currentSortBy === MessageSortBy.ALL && (
-                  <CustomTableHeaderCell>{showStatusLabel(row.isRead)}</CustomTableHeaderCell>
+                  <CustomTableHeaderCell>
+                    {showStatusLabel(row.isRead)}
+                  </CustomTableHeaderCell>
                 )}
                 <CustomTableDataDeleteCell>
                   <IconButton
