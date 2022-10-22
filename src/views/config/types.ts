@@ -13,6 +13,8 @@ export interface Config {
   phone: string;
   email: string;
   aboutModalDescription: string;
+  profileImageURL: string;
+  cvURL: string;
   services: string[];
   programmingSkills: {
     name: string;
@@ -21,5 +23,15 @@ export interface Config {
   languageSkills: {
     name: string;
     value: number;
+  }[];
+  education: {
+    title: string;
+    description: string;
+    year: string;
+  }[];
+  work: {
+    title: string;
+    description: string;
+    year: string;
   }[];
 }

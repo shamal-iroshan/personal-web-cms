@@ -19,6 +19,11 @@ import TextInputField from '../../../common/TextInputField';
 import StyledButton from '../../../common/StyledButton';
 import CheckBoxField from '../../../common/CheckBoxField';
 import AnimatedTextSelection from '../components/AnimatedTextSelection';
+import ServicesSelection from '../components/ServicesSelection';
+import ProgrammingSkills from '../components/ProgrammingSkills';
+import LanguageSkills from '../components/LanguageSkills';
+import Education from '../components/Education';
+import Work from '../components/Work';
 
 interface LabelProps {
   disabled: boolean;
@@ -63,6 +68,8 @@ export default function AddConfig() {
         phone: 'dd',
         email: 'dfd',
         aboutModalDescription: 'fgf',
+        profileImageURL: 'fgf',
+        cvURL: 'fgf',
         services: ['fdf'],
         programmingSkills: [
           {
@@ -74,6 +81,20 @@ export default function AddConfig() {
           {
             name: 'dfdfdfd',
             value: 0,
+          },
+        ],
+        education: [
+          {
+            title: 'test',
+            description: 'description',
+            year: '2022',
+          },
+        ],
+        work: [
+          {
+            title: 'test',
+            description: 'description',
+            year: '2022',
           },
         ],
       });
@@ -95,9 +116,13 @@ export default function AddConfig() {
     phone: tempData?.phone || '',
     email: tempData?.email || '',
     aboutModalDescription: tempData?.aboutModalDescription || '',
+    profileImageURL: tempData?.profileImageURL || '',
+    cvURL: tempData?.cvURL || '',
     services: tempData?.services || [],
     programmingSkills: tempData?.programmingSkills || [],
     languageSkills: tempData?.languageSkills || [],
+    education: tempData?.education || [],
+    work: tempData?.work || [],
   };
 
   const onSubmit = (values: Config) => {
@@ -213,6 +238,20 @@ export default function AddConfig() {
                 </Grid>
                 <Grid item xs={12} lg={6}>
                   <TextInputField
+                    name="profileImageURL"
+                    label="Profile Image URL"
+                    placeholder="Enter profile image url here"
+                  />
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <TextInputField
+                    name="cvURL"
+                    label="CV URL"
+                    placeholder="Enter cv url here"
+                  />
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <TextInputField
                     name="name"
                     label="Name"
                     placeholder="Enter name here"
@@ -247,6 +286,9 @@ export default function AddConfig() {
                     type="email"
                   />
                 </Grid>
+                <Grid item xs={12} lg={6}>
+                  <ServicesSelection />
+                </Grid>
                 <Grid item xs={12} lg={12}>
                   <StyledLabelContainer>
                     <StyledLabel disabled={false}>
@@ -277,6 +319,18 @@ export default function AddConfig() {
                     }
                   />
                 </Grid>
+                <Grid item xs={12} lg={12}>
+                  <ProgrammingSkills />
+                </Grid>
+                <Grid item xs={12} lg={12}>
+                  <LanguageSkills />
+                </Grid>
+                <Grid item xs={12} lg={12}>
+                  <Education />
+                </Grid>
+                <Grid item xs={12} lg={12}>
+                  <Work />
+                </Grid>
               </Grid>
               <Box
                 gap={2}
@@ -289,6 +343,16 @@ export default function AddConfig() {
                   buttonText="Go Back"
                   onClick={() => navigate(ROUTE_CONFIG, { replace: true })}
                 />
+                {configId && (
+                  <StyledButton
+                    isError
+                    buttonText="Set as Active"
+                    onClick={() => {
+                      // eslint-disable-next-line no-console
+                      console.log('set');
+                    }}
+                  />
+                )}
                 <StyledButton
                   type="submit"
                   buttonText="Save"

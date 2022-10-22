@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { styled as materialStyled } from '@mui/material/styles';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import {Switch, Table, TableBody, TableHead, TableRow} from '@mui/material';
+import { Table, TableBody, TableHead, TableRow } from '@mui/material';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import IconButton from '@mui/material/IconButton';
@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import EmptyTableBody from '../../../common/EmptyTableBody';
 import ConfirmationModal from '../../../common/ConfirmationModal';
 import { ROUTE_CONFIG } from '../../../common/routes';
+import StatusLabel from '../../../common/StatusLabel';
 
 const CustomTableHeaderCell = materialStyled(TableCell)(() => ({
   fontWeight: 700,
@@ -80,6 +81,26 @@ const tempData = [
   },
 ];
 
+function showStatusLabel(status: boolean) {
+  if (status)
+    return (
+      <StatusLabel
+        label="Operational"
+        labelColor="#027A48"
+        dotColor="#12B76A"
+        bgColor="#ECFDF3"
+      />
+    );
+  return (
+    <StatusLabel
+      label="Under Maintenance"
+      labelColor="#B42318"
+      dotColor="#F04438"
+      bgColor="#FEF3F2"
+    />
+  );
+}
+
 export default function ConfigTable() {
   const navigate = useNavigate();
   const [isOpenDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
@@ -96,7 +117,7 @@ export default function ConfigTable() {
             <TableRow>
               <CustomTableHeaderCell>Website</CustomTableHeaderCell>
               <CustomTableHeaderCell>Views</CustomTableHeaderCell>
-              <CustomTableHeaderCell>Under Maintenance</CustomTableHeaderCell>
+              <CustomTableHeaderCell>Status</CustomTableHeaderCell>
               <CustomTableHeaderCell />
               <CustomTableHeaderCell />
             </TableRow>
@@ -113,11 +134,7 @@ export default function ConfigTable() {
                 <CustomTableDataCell>{row.website}</CustomTableDataCell>
                 <CustomTableDataCell>{row.views}</CustomTableDataCell>
                 <CustomTableDataCell>
-                  <Switch
-                    checked={row.underMaintenance}
-                    inputProps={{ 'aria-label': 'controlled' }}
-                    disabled
-                  />
+                  {showStatusLabel(row.underMaintenance)}
                 </CustomTableDataCell>
                 <CustomTableDataDeleteCell>
                   <IconButton

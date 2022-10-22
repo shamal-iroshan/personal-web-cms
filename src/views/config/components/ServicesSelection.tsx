@@ -27,7 +27,7 @@ const ErrorText = styled.p`
   margin-top: 2px;
 `;
 
-export default function AnimatedTextSelection({
+export default function ServicesSelection({
   disabled = false,
 }: {
   disabled?: boolean;
@@ -35,13 +35,13 @@ export default function AnimatedTextSelection({
   const { setFieldValue, values, errors, setFieldTouched, touched } =
     useFormikContext();
   // @ts-ignore
-  const hasError = errors.animatedText;
+  const hasError = errors.services;
   // @ts-ignore
-  const hasTouched = touched.animatedText;
+  const hasTouched = touched.services;
   // @ts-ignore
-  const value = values.animatedText;
+  const value = values.services;
 
-  const options = ['Developer', 'Designer', 'Freelancer'];
+  const options: string[] = [];
   const fixedOptions: string[] = [];
 
   const renderError = (message: string) => <ErrorText>{message}</ErrorText>;
@@ -50,23 +50,23 @@ export default function AnimatedTextSelection({
     <>
       <Box display="flex" flexDirection="column">
         <StyledLabelContainer>
-          <StyledLabel disabled={disabled}>Animated Texts</StyledLabel>
+          <StyledLabel disabled={disabled}>Services</StyledLabel>
         </StyledLabelContainer>
       </Box>
       <Autocomplete
         freeSolo
         readOnly={disabled}
         multiple
-        id="animated-texts"
+        id="services-texts"
         value={value}
         onChange={(event, newValue) => {
-          setFieldTouched('animatedText');
-          setFieldValue('animatedText', [
+          setFieldTouched('services');
+          setFieldValue('services', [
             // @ts-ignore
             ...new Set([...fixedOptions, ...newValue]),
           ]);
         }}
-        onBlur={() => setFieldTouched('animatedText')}
+        onBlur={() => setFieldTouched('services')}
         options={options}
         getOptionLabel={(option) => option}
         renderTags={(tagValue, getTagProps) =>
@@ -77,7 +77,7 @@ export default function AnimatedTextSelection({
         renderInput={(params) => (
           <Field
             as={TextField}
-            placeholder="Enter animated Texts here"
+            placeholder="Enter Services here"
             {...params}
             variant="filled"
             InputProps={{
