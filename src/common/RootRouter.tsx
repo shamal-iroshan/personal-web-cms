@@ -12,6 +12,8 @@ import SignIn from '../views/signIn/pages/SignIn';
 import AuthorizedWrapper from './AuthorizedWrapper';
 import Config from '../views/config/pages/Config';
 import AddConfig from '../views/config/pages/AddConfig';
+import Portfolio from '../views/portfolio/pages/Portfolio';
+import AddPortfolio from "../views/portfolio/pages/AddPortfolio";
 
 export default function RootRouter() {
   const location = useLocation();
@@ -52,9 +54,9 @@ export default function RootRouter() {
           </AuthorizedWrapper>
         }
       >
-        <Route index element={<h1>Portfolio</h1>} />
-        <Route path="add" element={<h1>Portfolio add</h1>} />
-        <Route path=":portfolioId" element={<h1>Portfolio edit</h1>} />
+        <Route index element={<Portfolio />} />
+        <Route path="add" element={<AddPortfolio />} />
+        <Route path=":portfolioId" element={<AddPortfolio />} />
       </Route>
       <Route
         path={ROUTE_MESSAGE}

@@ -1,12 +1,12 @@
 import React from 'react';
 import TableHeader from '../../../common/TableHeader';
 
-export default function ConfigTableHeader() {
+export default function PortfolioTableHeader() {
   return (
     <TableHeader
-      title="Configs"
+      title="Portfolio"
       total={5}
-      description="Mange website configs from here."
+      description="Mange portfolio content from here."
     />
   );
 }
