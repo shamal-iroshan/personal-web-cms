@@ -22,12 +22,14 @@ interface TableHeaderProps {
   title: string;
   total: number;
   description?: string;
+  children?: JSX.Element;
 }
 
 export default function TableHeader({
   title,
   total,
   description = '',
+  children,
 }: TableHeaderProps) {
   return (
     <Grid
@@ -46,6 +48,7 @@ export default function TableHeader({
         </Box>
         <SubTitleText>{description}</SubTitleText>
       </Box>
+      {children && children}
     </Grid>
   );
 }

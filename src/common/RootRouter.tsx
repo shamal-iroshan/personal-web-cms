@@ -14,6 +14,7 @@ import Config from '../views/config/pages/Config';
 import AddConfig from '../views/config/pages/AddConfig';
 import Portfolio from '../views/portfolio/pages/Portfolio';
 import AddPortfolio from "../views/portfolio/pages/AddPortfolio";
+import Message from "../views/message/pages/Message";
 
 export default function RootRouter() {
   const location = useLocation();
@@ -66,8 +67,7 @@ export default function RootRouter() {
           </AuthorizedWrapper>
         }
       >
-        <Route index element={<h1>Message</h1>} />
-        <Route path=":messageId" element={<h1>Message view</h1>} />
+        <Route index element={<Message />} />
       </Route>
       <Route path="/" element={<Navigate to={ROUTE_SIGN_IN} replace />} />
       <Route path="*" element={<h1>Oops!</h1>} />
