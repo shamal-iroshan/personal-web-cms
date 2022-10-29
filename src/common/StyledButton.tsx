@@ -53,6 +53,7 @@ type TransparentBlackButtonProps = {
   isSmallButton?: boolean;
   isError?: boolean;
   isErrorOutlined?: boolean;
+  outlined?: boolean;
 };
 
 export default function StyledButton(props: TransparentBlackButtonProps) {
@@ -68,12 +69,20 @@ export default function StyledButton(props: TransparentBlackButtonProps) {
     isSmallButton = false,
     isError = false,
     isErrorOutlined = false,
+    outlined = false,
   } = props;
 
   let textColor = '#ffffff';
   let background = '#4169e1';
   let hoverBackground = '#164cee';
   let borderColor = '#0d358c';
+
+  if (outlined) {
+    textColor = '#164cee';
+    background = '#ffffff';
+    hoverBackground = '#faf5f5';
+    borderColor = '#0d358c';
+  }
 
   if (isError) {
     textColor = '#ffffff';

@@ -191,6 +191,7 @@ export default function AddPortfolio() {
               >
                 <StyledButton
                   buttonText="Go Back"
+                  outlined
                   onClick={() => navigate(ROUTE_PORTFOLIO, { replace: true })}
                 />
                 <StyledButton

@@ -335,12 +335,18 @@ export default function AddConfig() {
               <Box
                 gap={2}
                 mt={4}
-                display="flex"
-                flexDirection="row"
-                justifyContent="flex-end"
+                sx={(theme) => ({
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
+                  [theme.breakpoints.down('md')]: {
+                    flexDirection: 'column',
+                  },
+                })}
               >
                 <StyledButton
                   buttonText="Go Back"
+                  outlined
                   onClick={() => navigate(ROUTE_CONFIG, { replace: true })}
                 />
                 {configId && (

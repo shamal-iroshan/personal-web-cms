@@ -83,9 +83,18 @@ export default function Work() {
         </Box>
       ))}
       <Grid item md={12}>
-        <Box display="flex" flexDirection="row" gap={1}>
+        <Box
+          sx={(theme) => ({
+            display: 'flex',
+            flexDirection: 'row',
+            [theme.breakpoints.down('md')]: {
+              flexDirection: 'column',
+            },
+          })}
+          gap={1}
+        >
           <OutlinedInput
-            sx={{
+            sx={(theme) => ({
               fontWeight: '400',
               fontSize: '16px',
               textAlign: 'center',
@@ -98,13 +107,16 @@ export default function Work() {
               'fieldset.MuiOutlinedInput-notchedOutline': {
                 border: '1px solid #E3E8EF !important',
               },
-            }}
+              [theme.breakpoints.down('md')]: {
+                width: '100%',
+              },
+            })}
             placeholder="Enter Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <OutlinedInput
-            sx={{
+            sx={(theme) => ({
               fontWeight: '400',
               fontSize: '16px',
               textAlign: 'center',
@@ -117,13 +129,16 @@ export default function Work() {
               'fieldset.MuiOutlinedInput-notchedOutline': {
                 border: '1px solid #E3E8EF !important',
               },
-            }}
+              [theme.breakpoints.down('md')]: {
+                width: '100%',
+              },
+            })}
             placeholder="Enter description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
           <OutlinedInput
-            sx={{
+            sx={(theme) => ({
               fontWeight: '400',
               fontSize: '16px',
               textAlign: 'center',
@@ -136,13 +151,17 @@ export default function Work() {
               'fieldset.MuiOutlinedInput-notchedOutline': {
                 border: '1px solid #E3E8EF !important',
               },
-            }}
+              [theme.breakpoints.down('md')]: {
+                width: '100%',
+              },
+            })}
             placeholder="Enter year"
             value={year}
             onChange={(e) => setYear(e.target.value)}
           />
           <StyledButton
             buttonText="Add"
+            outlined
             onClick={() => {
               const temp = values.work;
               temp.push({ title, description, year });

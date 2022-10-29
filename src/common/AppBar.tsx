@@ -15,7 +15,6 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import AppBarSkeleton from './AppBarSkeleton';
 import NotificationMenu from './NotificationMenu';
-import userProfileImage from '../assets/images/userProfileAvatar.png';
 import UserProfileMenu from './UserProfileMenu';
 // eslint-disable-next-line import/no-cycle
 import { AuthContext } from '../App';
@@ -65,20 +64,6 @@ const StyledRightContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-`;
-
-const Image = styled.img`
-  height: 40px;
-  width: 40px;
-  border-radius: 40px;
-  object-fit: cover;
-`;
-
-const StyledRole = styled.p`
-  color: #718096;
-  font-size: 12px;
-  text-align: left;
-  margin-left: 12px;
 `;
 
 export default function AppBar() {
@@ -160,7 +145,7 @@ export default function AppBar() {
                   sx={{
                     '& .MuiBadge-badge': {
                       color: 'white',
-                      backgroundColor: '#F97066',
+                      backgroundColor: '#164cee',
                     },
                   }}
                 >
@@ -186,7 +171,6 @@ export default function AppBar() {
                   },
                 }}
               >
-                <Image src={userProfileImage} alt="user profile pic" />
                 <Box
                   display="flex"
                   flexDirection="column"
@@ -199,7 +183,6 @@ export default function AppBar() {
                   <MaterialStyledTypography>
                     Shamal iroshan
                   </MaterialStyledTypography>
-                  <StyledRole>Admin</StyledRole>
                 </Box>
                 <ExpandMoreOutlinedIcon
                   sx={(theme) => ({

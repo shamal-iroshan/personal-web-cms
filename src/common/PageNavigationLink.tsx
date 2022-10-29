@@ -17,7 +17,7 @@ const MaterialStyledListItemButton = materialStyled(ListItemButton)(
   (props: IsSelectedProps) => ({
     height: 46,
     padding: 0,
-    borderLeft: props.selected ? '4px solid #EE6352' : '4px solid transparent',
+    borderLeft: props.selected ? '4px solid #164cee' : '4px solid transparent',
   }),
 );
 
@@ -25,7 +25,7 @@ const MaterialStyledTypography = materialStyled(Typography)(
   (props: IsSelectedProps) => ({
     fontWeight: '700',
     fontSize: '16px',
-    color: props.selected ? '#EE6352' : 'rgba(37, 51, 79, 0.6)',
+    color: props.selected ? '#164cee' : 'rgba(37, 51, 79, 0.6)',
     marginLeft: 16,
   }),
 );
@@ -77,7 +77,7 @@ export default function PageNavigationLink(props: PageNavigationLinkProps) {
       }}
     >
       <StyledSvgWrapper
-        color={isSelected ? '#EE6352' : 'rgba(37, 51, 79, 0.6)'}
+        color={isSelected ? '#164cee' : 'rgba(37, 51, 79, 0.6)'}
       >
         {icon}
       </StyledSvgWrapper>

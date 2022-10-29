@@ -78,10 +78,19 @@ export default function ProgrammingSkills() {
           </DetailText>
         </Box>
       ))}
-      <Grid item md={6} xs={12}>
-        <Box display="flex" flexDirection="row" gap={1}>
+      <Grid item md={6} sm={12}>
+        <Box
+          gap={1}
+          sx={(theme) => ({
+            display: 'flex',
+            flexDirection: 'row',
+            [theme.breakpoints.down('md')]: {
+              flexDirection: 'column',
+            },
+          })}
+        >
           <OutlinedInput
-            sx={{
+            sx={(theme) => ({
               fontWeight: '400',
               fontSize: '16px',
               textAlign: 'center',
@@ -94,7 +103,10 @@ export default function ProgrammingSkills() {
               'fieldset.MuiOutlinedInput-notchedOutline': {
                 border: '1px solid #E3E8EF !important',
               },
-            }}
+              [theme.breakpoints.down('md')]: {
+                width: '100%',
+              },
+            })}
             placeholder="Enter programming skill name here"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -120,6 +132,7 @@ export default function ProgrammingSkills() {
           />
           <StyledButton
             buttonText="Add"
+            outlined
             onClick={() => {
               const temp = values.programmingSkills;
               temp.push({ name, value });
