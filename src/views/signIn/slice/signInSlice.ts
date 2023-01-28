@@ -9,6 +9,7 @@ const initialState: SignInState = {
   signInIsSuccess: false,
   signInError: { hasError: false, description: '' },
   signOutIsLoading: false,
+  idToken: '',
 };
 
 const signInSlice = createSlice({
@@ -36,6 +37,9 @@ const signInSlice = createSlice({
       state.signOutIsLoading = false;
       state.signInIsSuccess = false;
     },
+    setIdToken(state, action: PayloadAction<string>) {
+      state.idToken = action.payload;
+    },
   },
 });
 
@@ -51,6 +55,7 @@ export const selectSignInError = (state: RootState) =>
   state.signInReducer.signInError;
 export const selectSignOutIsLoading = (state: RootState) =>
   state.signInReducer.signOutIsLoading;
+export const selectIdToken = (state: RootState) => state.signInReducer.idToken;
 
 // Reducer
 const signInReducer = signInSlice.reducer;

@@ -9,4 +9,5 @@ export interface SignInState {
   signInIsSuccess: boolean;
   signInError: { hasError: boolean; description: string };
   signOutIsLoading: boolean;
+  idToken: string;
 }

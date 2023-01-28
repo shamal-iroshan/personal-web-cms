@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { call, put } from 'redux-saga/effects';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, UserCredential } from 'firebase/auth';
 import { SignInPayload } from '../types';
 // eslint-disable-next-line import/no-cycle
 import { signInActions } from '../slice/signInSlice';
@@ -17,8 +17,7 @@ export default function* callSignInSaga({
   payload,
 }: PayloadAction<SignInPayload>) {
   try {
-    const response: object = yield call(signInAsync, payload);
-    // @ts-ignore
+    const response: UserCredential = yield call(signInAsync, payload);
     yield put(signInActions.signInSuccess(response?.user));
   } catch (error) {
     console.error('callSignInSaga', error);

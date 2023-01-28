@@ -1,7 +1,7 @@
+/* eslint-disable import/no-cycle */
 import { PayloadAction } from '@reduxjs/toolkit';
 import { call, put } from 'redux-saga/effects';
 import errorToast from '../../../common/toast/errorToast';
-// eslint-disable-next-line import/no-cycle
 import { configActions } from '../slice/configSlice';
 import {
   ApiEndpointUrl,

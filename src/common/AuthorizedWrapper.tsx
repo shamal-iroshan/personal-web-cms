@@ -8,8 +8,8 @@ import StyledButton from './StyledButton';
 import AppBar from './AppBar';
 // eslint-disable-next-line import/no-cycle
 import LeftDrawer from './LeftDrawer';
-import { useAppSelector } from '../store/types';
-import { selectSignInIsSuccess } from '../views/signIn/slice/signInSlice';
+import {useAppDispatch, useAppSelector} from '../store/types';
+import {selectSignInIsSuccess, signInActions} from '../views/signIn/slice/signInSlice';
 import { ROUTE_SIGN_IN } from './routes';
 import { auth } from '../config/firebase';
 
@@ -61,17 +61,19 @@ export default function AuthorizedWrapper({
   children: JSX.Element;
 }) {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const signInSuccess = useAppSelector(selectSignInIsSuccess);
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('Authorized wrapper');
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const idToken = await user.getIdToken();
+        dispatch(signInActions.setIdToken(idToken));
+      } else {
         navigate(ROUTE_SIGN_IN, { replace: true });
       }
     });
-  }, [navigate, signInSuccess]);
+  }, [dispatch, navigate, signInSuccess]);
 
   const isError = false;
   if (isError) {

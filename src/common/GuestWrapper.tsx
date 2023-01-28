@@ -3,8 +3,11 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
-import { useAppSelector } from '../store/types';
-import { selectSignInIsSuccess } from '../views/signIn/slice/signInSlice';
+import { useAppDispatch, useAppSelector } from '../store/types';
+import {
+  selectSignInIsSuccess,
+  signInActions,
+} from '../views/signIn/slice/signInSlice';
 import { ROUTE_CONFIG } from './routes';
 import { auth } from '../config/firebase';
 
@@ -16,17 +19,18 @@ const CardBody = styled.div`
 
 export default function GuestWrapper({ children }: { children: JSX.Element }) {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const signInSuccess = useAppSelector(selectSignInIsSuccess);
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('guest wrapper');
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
+        const idToken = await user.getIdToken();
+        dispatch(signInActions.setIdToken(idToken));
         navigate(ROUTE_CONFIG, { replace: true });
       }
     });
-  }, [navigate, signInSuccess]);
+  }, [dispatch, navigate, signInSuccess]);
 
   return (
     <Grid container>

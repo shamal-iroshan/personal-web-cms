@@ -1,4 +1,6 @@
 import axios from 'axios';
+// eslint-disable-next-line import/no-cycle
+import store from '../store/store';
 
 export enum ApiRequestMethod {
   POST = 'post',
@@ -77,11 +79,12 @@ export async function authorizedApiRequest(
   url: ApiEndpointUrl | string,
   data?: object,
 ) {
+  const accessToken = store.getState().signInReducer.idToken;
   return axios({
     method,
     url: `${process.env.REACT_APP_BASE_API_URL}${url}`,
     data,
-    withCredentials: true,
+    headers: { Authorization: `Bearer ${accessToken}` },
   })
     .then((response) => response.data)
     .catch((error) => {
