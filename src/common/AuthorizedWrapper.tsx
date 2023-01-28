@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { onAuthStateChanged } from 'firebase/auth';
 import StyledButton from './StyledButton';
 // eslint-disable-next-line import/no-cycle
 import AppBar from './AppBar';
 // eslint-disable-next-line import/no-cycle
 import LeftDrawer from './LeftDrawer';
+import { useAppSelector } from '../store/types';
+import { selectSignInIsSuccess } from '../views/signIn/slice/signInSlice';
+import { ROUTE_SIGN_IN } from './routes';
+import { auth } from '../config/firebase';
 
 const StyledDiv = styled.div`
   height: 50vh;
@@ -54,6 +60,19 @@ export default function AuthorizedWrapper({
 }: {
   children: JSX.Element;
 }) {
+  const navigate = useNavigate();
+  const signInSuccess = useAppSelector(selectSignInIsSuccess);
+
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log('Authorized wrapper');
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        navigate(ROUTE_SIGN_IN, { replace: true });
+      }
+    });
+  }, [navigate, signInSuccess]);
+
   const isError = false;
   if (isError) {
     return (

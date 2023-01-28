@@ -7,6 +7,8 @@ import Logout from '@mui/icons-material/Logout';
 import { styled as materialStyled } from '@mui/material/styles';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import ResetPasswordModal from './ResetPasswordModal';
+import { useAppDispatch } from '../store/types';
+import { signInActions } from '../views/signIn/slice/signInSlice';
 
 const StyledMenuItem = materialStyled(MenuItem)({
   height: '46px',
@@ -19,13 +21,13 @@ interface UserProfileMenuProps {
 
 export default function UserProfileMenu(props: UserProfileMenuProps) {
   const { anchorEl, handleClose } = props;
+  const dispatch = useAppDispatch();
   const open = Boolean(anchorEl);
   const [isResetOwnPasswordModalOpen, setOpenResetOwnPasswordModal] =
     useState(false);
 
   const handleSignOut = () => {
-    // eslint-disable-next-line no-console
-    console.log('sign out');
+    dispatch(signInActions.signOut());
   };
 
   return (

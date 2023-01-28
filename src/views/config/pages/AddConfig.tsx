@@ -24,6 +24,8 @@ import ProgrammingSkills from '../components/ProgrammingSkills';
 import LanguageSkills from '../components/LanguageSkills';
 import Education from '../components/Education';
 import Work from '../components/Work';
+import { useAppDispatch } from '../../../store/types';
+import { configActions } from '../slice/configSlice';
 
 interface LabelProps {
   disabled: boolean;
@@ -45,6 +47,7 @@ const StyledLabelContainer = styled.div`
 
 export default function AddConfig() {
   const { configId } = useParams();
+  const dispatch = useAppDispatch();
   const [tempData, setTempData] = useState<Config>();
   const isLoading = false;
   const navigate = useNavigate();
@@ -55,7 +58,7 @@ export default function AddConfig() {
     if (configId) {
       setTempData({
         id: '123343',
-        website: 'f',
+        isActive: false,
         views: 0,
         underMaintenance: true,
         homeTitle: 'fdf',
@@ -103,7 +106,7 @@ export default function AddConfig() {
 
   const initialValues: Config = {
     id: tempData?.id || '',
-    website: tempData?.website || '',
+    isActive: tempData?.isActive || false,
     views: tempData?.views || 0,
     underMaintenance: tempData?.underMaintenance || false,
     homeTitle: tempData?.homeTitle || '',
@@ -126,12 +129,11 @@ export default function AddConfig() {
   };
 
   const onSubmit = (values: Config) => {
-    // eslint-disable-next-line no-console
-    console.log(values);
+    dispatch(configActions.addConfig(values));
   };
 
   const validationSchema = Yup.object().shape({
-    website: Yup.string().required('Website is required'),
+    // website: Yup.string().required('Website is required'),
   });
 
   if (isLoading) {
@@ -141,7 +143,7 @@ export default function AddConfig() {
   return (
     <>
       <PageTitle
-        title={tempData?.website || ''}
+        title="shamaliroshan.com"
         titleIcon={
           <ArrowBackIcon fontSize={isSmallScreen ? 'medium' : 'large'} />
         }
@@ -158,15 +160,6 @@ export default function AddConfig() {
             <StyledForm>
               <Grid container columnSpacing={4} rowSpacing={3}>
                 <Grid item xs={12} lg={6}>
-                  <TextInputField
-                    name="website"
-                    label="Website"
-                    placeholder="Enter website here"
-                    required
-                    markAsRequired
-                  />
-                </Grid>
-                <Grid item xs={12} lg={6}>
                   <StyledLabelContainer>
                     <StyledLabel disabled={false}>Website Status</StyledLabel>
                   </StyledLabelContainer>
@@ -179,14 +172,6 @@ export default function AddConfig() {
                       );
                     }}
                     checked={values.underMaintenance}
-                  />
-                </Grid>
-                <Grid item xs={12} lg={6}>
-                  <TextInputField
-                    name="views"
-                    label="Views"
-                    placeholder="Enter views here"
-                    type="number"
                   />
                 </Grid>
                 <Grid item xs={12} lg={6}>

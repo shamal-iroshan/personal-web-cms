@@ -107,7 +107,7 @@ export default function LanguageSkills() {
                 width: '100%',
               },
             })}
-            placeholder="Enter programming skill name here"
+            placeholder="Enter language skill name here"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -125,7 +125,7 @@ export default function LanguageSkills() {
                 border: '1px solid #E3E8EF !important',
               },
             }}
-            placeholder="Enter programming skill value here"
+            placeholder="Enter language skill value here"
             type="number"
             value={value}
             onChange={(e) => setValue(Number(e.target.value))}
@@ -134,9 +134,9 @@ export default function LanguageSkills() {
             buttonText="Add"
             outlined
             onClick={() => {
-              const temp = values.programmingSkills;
+              const temp = values.languageSkills;
               temp.push({ name, value });
-              setFieldValue('programmingSkills', temp);
+              setFieldValue('languageSkills', temp);
               setName('');
               setValue(0);
             }}

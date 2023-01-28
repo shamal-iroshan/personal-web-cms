@@ -1,6 +1,6 @@
 export interface Config {
   id: string;
-  website: string;
+  isActive: boolean;
   views: number;
   underMaintenance: boolean;
   homeTitle: string;
@@ -34,4 +34,29 @@ export interface Config {
     description: string;
     year: string;
   }[];
+}
+
+export interface AllConfigs {
+  total: number;
+  data: Config[];
+}
+
+export interface ConfigState {
+  getConfigIsLoading: boolean;
+  getConfigIsSuccess: boolean;
+  getConfigError: { hasError: boolean; description: string };
+  config: Config | undefined;
+  getAllConfigIsLoading: boolean;
+  getAllConfigIsSuccess: boolean;
+  getAllConfigError: { hasError: boolean; description: string };
+  allConfigs: AllConfigs;
+  addConfigIsLoading: boolean;
+  addConfigIsSuccess: boolean;
+  addConfigError: { hasError: boolean; description: string };
+  updateConfigIsLoading: boolean;
+  updateConfigIsSuccess: boolean;
+  updateConfigError: { hasError: boolean; description: string };
+  deleteConfigIsLoading: boolean;
+  deleteConfigIsSuccess: boolean;
+  deleteConfigError: { hasError: boolean; description: string };
 }

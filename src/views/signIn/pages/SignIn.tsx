@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import Grid from '@mui/material/Grid';
-import { useNavigate } from 'react-router-dom';
 import { StyledForm } from '../../../common/StyledBasicComponents';
 import { SignInPayload } from '../types';
 import TextInputField from '../../../common/TextInputField';
 import PasswordInputField from '../../../common/PasswordInputField';
 import StyledButton from '../../../common/StyledButton';
-import { ROUTE_CONFIG } from '../../../common/routes';
+import { useAppDispatch } from '../../../store/types';
+import { signInActions } from '../slice/signInSlice';
 
 const HeaderText = styled.h1`
   font-weight: 800;
@@ -19,12 +19,10 @@ const HeaderText = styled.h1`
 `;
 
 export default function SignIn() {
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleSubmit = (values: SignInPayload) => {
-    // eslint-disable-next-line no-console
-    console.log(values);
-    navigate(ROUTE_CONFIG, { replace: false });
+    dispatch(signInActions.signIn(values));
   };
 
   const initialValues: SignInPayload = {

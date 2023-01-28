@@ -11,6 +11,8 @@ import EmptyTableBody from '../../../common/EmptyTableBody';
 import ConfirmationModal from '../../../common/ConfirmationModal';
 import { ROUTE_CONFIG } from '../../../common/routes';
 import StatusLabel from '../../../common/StatusLabel';
+import { useAppSelector } from '../../../store/types';
+import { selectAllConfigs } from '../slice/configSlice';
 
 const CustomTableHeaderCell = materialStyled(TableCell)(() => ({
   fontWeight: 700,
@@ -49,40 +51,8 @@ const CustomTableContainer = materialStyled(TableContainer)(() => ({
   borderRadius: '12px',
 })) as typeof TableContainer;
 
-const tempData = [
-  {
-    id: '123343',
-    website: 'f',
-    views: 0,
-    underMaintenance: true,
-    homeTitle: 'fdf',
-    animatedText: ['fdf'],
-    aboutTitle: 'fdf',
-    aboutDescription: '1111',
-    name: '11111',
-    dateOfBirth: '1111',
-    address: 'dfd',
-    phone: 'dd',
-    email: 'dfd',
-    aboutModalDescription: 'fgf',
-    services: ['fdf'],
-    programmingSkills: [
-      {
-        name: 'dfdf',
-        value: 0,
-      },
-    ],
-    languageSkills: [
-      {
-        name: 'dfdfdfd',
-        value: 0,
-      },
-    ],
-  },
-];
-
 function showStatusLabel(status: boolean) {
-  if (status)
+  if (!status)
     return (
       <StatusLabel
         label="Operational"
@@ -101,8 +71,29 @@ function showStatusLabel(status: boolean) {
   );
 }
 
+function showActiveLabel(status: boolean) {
+  if (status)
+    return (
+      <StatusLabel
+        label="Active"
+        labelColor="#027A48"
+        dotColor="#12B76A"
+        bgColor="#ECFDF3"
+      />
+    );
+  return (
+    <StatusLabel
+      label="Not using"
+      labelColor="#B42318"
+      dotColor="#F04438"
+      bgColor="#FEF3F2"
+    />
+  );
+}
+
 export default function ConfigTable() {
   const navigate = useNavigate();
+  const configs = useAppSelector(selectAllConfigs);
   const [isOpenDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
     useState(false);
   const [selectedConfigId, setSelectedConfigId] = useState<string | undefined>(
@@ -115,7 +106,7 @@ export default function ConfigTable() {
         <Table>
           <TableHead>
             <TableRow>
-              <CustomTableHeaderCell>Website</CustomTableHeaderCell>
+              <CustomTableHeaderCell>Active State</CustomTableHeaderCell>
               <CustomTableHeaderCell>Views</CustomTableHeaderCell>
               <CustomTableHeaderCell>Status</CustomTableHeaderCell>
               <CustomTableHeaderCell />
@@ -123,15 +114,17 @@ export default function ConfigTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tempData.length === 0 && (
+            {configs.data.length === 0 && (
               <EmptyTableBody message="No configs to show" colSpan={5} />
             )}
-            {tempData.map((row) => (
+            {configs.data.map((row) => (
               <TableRow
                 key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <CustomTableDataCell>{row.website}</CustomTableDataCell>
+                <CustomTableDataCell>
+                  {showActiveLabel(row.isActive)}
+                </CustomTableDataCell>
                 <CustomTableDataCell>{row.views}</CustomTableDataCell>
                 <CustomTableDataCell>
                   {showStatusLabel(row.underMaintenance)}

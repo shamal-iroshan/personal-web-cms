@@ -3,11 +3,10 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import LoadingContainer from './common/LoadingContainer';
-import store, { persist } from './store/store';
+import store from './store/store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -15,11 +14,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <Suspense fallback={<LoadingContainer />}>
     <Provider store={store}>
-      <PersistGate persistor={persist}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </PersistGate>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   </Suspense>,
 );
