@@ -11,7 +11,7 @@ import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNone
 import { Theme, useMediaQuery } from '@mui/material';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+// import Typography from '@mui/material/Typography';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import AppBarSkeleton from './AppBarSkeleton';
 import NotificationMenu from './NotificationMenu';
@@ -47,12 +47,12 @@ const UserProfileContainer = materialStyled(Button)({
   alignItems: 'center',
 });
 
-const MaterialStyledTypography = materialStyled(Typography)({
-  fontWeight: 700,
-  color: '#25334F',
-  fontSize: 18,
-  marginLeft: '12px',
-}) as typeof Typography;
+// const MaterialStyledTypography = materialStyled(Typography)({
+//   fontWeight: 700,
+//   color: '#25334F',
+//   fontSize: 18,
+//   marginLeft: '12px',
+// }) as typeof Typography;
 
 const StyledLeftContainer = styled.div`
   display: flex;
@@ -180,9 +180,10 @@ export default function AppBar() {
                     },
                   })}
                 >
-                  <MaterialStyledTypography>
-                    Shamal iroshan
-                  </MaterialStyledTypography>
+                  <MenuIcon sx={{ color: '#25334F' }} />
+                  {/* <MaterialStyledTypography> */}
+                  {/*  Shamal iroshan */}
+                  {/* </MaterialStyledTypography> */}
                 </Box>
                 <ExpandMoreOutlinedIcon
                   sx={(theme) => ({
