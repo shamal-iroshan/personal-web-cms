@@ -10,25 +10,24 @@ import {
   decodePlaceHolder,
 } from '../../../utils/apiService';
 import successToast from '../../../common/toast/successToast';
-import { Config } from '../types';
 
-async function callApi(data: Config) {
-  const url = decodePlaceHolder(ApiEndpointUrl.UPDATE_CONFIG, {
-    configId: data.id,
+async function callApi(configId: string) {
+  const url = decodePlaceHolder(ApiEndpointUrl.SET_ACTIVE_CONFIG, {
+    configId,
   });
-  return authorizedApiRequest(ApiRequestMethod.PATCH, url, data);
+  return authorizedApiRequest(ApiRequestMethod.PATCH, url);
 }
 
-export default function* callUpdateConfigSaga({
+export default function* callSetActiveConfigSaga({
   payload,
-}: PayloadAction<Config>) {
+}: PayloadAction<string>) {
   try {
     yield call(callApi, payload);
-    successToast('Success', 'You have successfully updated.');
-    yield put(configActions.updateConfigSuccess());
+    successToast('Success', 'Active config changed.');
+    yield put(configActions.setConfigAsActiveSuccess());
   } catch (error) {
-    console.error('callUpdateConfigSaga', error);
+    console.error('callSetActiveConfigSaga', error);
     errorToast('Oops', 'Something went wrong please try again later.');
-    yield put(configActions.updateConfigError('error'));
+    yield put(configActions.setConfigAsActiveError('error'));
   }
 }

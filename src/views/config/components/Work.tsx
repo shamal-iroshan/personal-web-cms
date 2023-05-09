@@ -54,10 +54,10 @@ export default function Work() {
       <Box display="flex" flexDirection="row">
         <StyledLabel>Work</StyledLabel>
       </Box>
-      {(values?.work || []).length === 0 && (
+      {(values?.works || []).length === 0 && (
         <EmptyText>No Work Details</EmptyText>
       )}
-      {values?.work?.map((el) => (
+      {values?.works?.map((el) => (
         <Box
           key={el.title}
           mb={2}
@@ -163,7 +163,7 @@ export default function Work() {
             buttonText="Add"
             outlined
             onClick={() => {
-              const temp = values.work;
+              const temp = values.works;
               temp.push({ title, description, year });
               setFieldValue('work', temp);
               setTitle('');

@@ -24,12 +24,12 @@ export interface Config {
     name: string;
     value: number;
   }[];
-  education: {
+  educations: {
     title: string;
     description: string;
     year: string;
   }[];
-  work: {
+  works: {
     title: string;
     description: string;
     year: string;
@@ -59,4 +59,7 @@ export interface ConfigState {
   deleteConfigIsLoading: boolean;
   deleteConfigIsSuccess: boolean;
   deleteConfigError: { hasError: boolean; description: string };
+  setAsActiveLoading: boolean;
+  setAsActiveIsSuccess: boolean;
+  setAsActiveError: { hasError: boolean; description: string };
 }

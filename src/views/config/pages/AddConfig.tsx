@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import * as Yup from 'yup';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Theme } from '@mui/material/styles';
@@ -24,8 +24,10 @@ import ProgrammingSkills from '../components/ProgrammingSkills';
 import LanguageSkills from '../components/LanguageSkills';
 import Education from '../components/Education';
 import Work from '../components/Work';
-import { useAppDispatch } from '../../../store/types';
-import { configActions } from '../slice/configSlice';
+import { useAppDispatch, useAppSelector } from '../../../store/types';
+import { configActions, selectConfig } from '../slice/configSlice';
+import errorToast from '../../../common/toast/errorToast';
+import {selectIdToken} from "../../signIn/slice/signInSlice";
 
 interface LabelProps {
   disabled: boolean;
@@ -48,93 +50,62 @@ const StyledLabelContainer = styled.div`
 export default function AddConfig() {
   const { configId } = useParams();
   const dispatch = useAppDispatch();
-  const [tempData, setTempData] = useState<Config>();
   const isLoading = false;
   const navigate = useNavigate();
+  const config = useAppSelector(selectConfig);
+  const idToken = useAppSelector(selectIdToken);
   const isSmallScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('md'),
   );
   useEffect(() => {
-    if (configId) {
-      setTempData({
-        id: '123343',
-        isActive: false,
-        views: 0,
-        underMaintenance: true,
-        homeTitle: 'fdf',
-        animatedText: ['fdf'],
-        aboutTitle: 'fdf',
-        aboutDescription: '1111',
-        name: '11111',
-        dateOfBirth: '1111',
-        address: 'dfd',
-        phone: 'dd',
-        email: 'dfd',
-        aboutModalDescription: 'fgf',
-        profileImageURL: 'fgf',
-        cvURL: 'fgf',
-        services: ['fdf'],
-        programmingSkills: [
-          {
-            name: 'dfdf',
-            value: 0,
-          },
-        ],
-        languageSkills: [
-          {
-            name: 'dfdfdfd',
-            value: 0,
-          },
-        ],
-        education: [
-          {
-            title: 'test',
-            description: 'description',
-            year: '2022',
-          },
-        ],
-        work: [
-          {
-            title: 'test',
-            description: 'description',
-            year: '2022',
-          },
-        ],
-      });
+    if (configId && idToken) {
+      dispatch(configActions.getConfig(configId));
     }
-  }, [configId]);
+  }, [configId, dispatch, idToken]);
 
   const initialValues: Config = {
-    id: tempData?.id || '',
-    isActive: tempData?.isActive || false,
-    views: tempData?.views || 0,
-    underMaintenance: tempData?.underMaintenance || false,
-    homeTitle: tempData?.homeTitle || '',
-    animatedText: tempData?.animatedText || [],
-    aboutTitle: tempData?.aboutTitle || '',
-    aboutDescription: tempData?.aboutDescription || '',
-    name: tempData?.name || '',
-    dateOfBirth: tempData?.dateOfBirth || '',
-    address: tempData?.address || '',
-    phone: tempData?.phone || '',
-    email: tempData?.email || '',
-    aboutModalDescription: tempData?.aboutModalDescription || '',
-    profileImageURL: tempData?.profileImageURL || '',
-    cvURL: tempData?.cvURL || '',
-    services: tempData?.services || [],
-    programmingSkills: tempData?.programmingSkills || [],
-    languageSkills: tempData?.languageSkills || [],
-    education: tempData?.education || [],
-    work: tempData?.work || [],
+    id: config?.id || '',
+    isActive: config?.isActive || false,
+    views: config?.views || 0,
+    underMaintenance: config?.underMaintenance || false,
+    homeTitle: config?.homeTitle || '',
+    animatedText: config?.animatedText || [],
+    aboutTitle: config?.aboutTitle || '',
+    aboutDescription: config?.aboutDescription || '',
+    name: config?.name || '',
+    dateOfBirth: config?.dateOfBirth || '',
+    address: config?.address || '',
+    phone: config?.phone || '',
+    email: config?.email || '',
+    aboutModalDescription: config?.aboutModalDescription || '',
+    profileImageURL: config?.profileImageURL || '',
+    cvURL: config?.cvURL || '',
+    services: config?.services || [],
+    programmingSkills: config?.programmingSkills || [],
+    languageSkills: config?.languageSkills || [],
+    educations: config?.educations || [],
+    works: config?.works || [],
   };
 
   const onSubmit = (values: Config) => {
-    dispatch(configActions.addConfig(values));
+    if (configId) {
+      dispatch(configActions.updateConfig(values));
+    } else {
+      dispatch(configActions.addConfig(values));
+    }
   };
 
   const validationSchema = Yup.object().shape({
     // website: Yup.string().required('Website is required'),
   });
+
+  const onClickSetActive = () => {
+    if (configId) {
+      dispatch(configActions.setConfigAsActive(configId));
+    } else {
+      errorToast('Oops', 'Something went wrong please try again later.');
+    }
+  };
 
   if (isLoading) {
     return <LoadingContainer />;
@@ -330,18 +301,17 @@ export default function AddConfig() {
                 })}
               >
                 <StyledButton
+                  type="button"
                   buttonText="Go Back"
                   outlined
                   onClick={() => navigate(ROUTE_CONFIG, { replace: true })}
                 />
                 {configId && (
                   <StyledButton
+                    type="button"
                     isError
                     buttonText="Set as Active"
-                    onClick={() => {
-                      // eslint-disable-next-line no-console
-                      console.log('set');
-                    }}
+                    onClick={onClickSetActive}
                   />
                 )}
                 <StyledButton

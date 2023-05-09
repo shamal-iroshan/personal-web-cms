@@ -18,6 +18,7 @@ export enum ApiEndpointUrl {
   ADD_CONFIG = 'config',
   UPDATE_CONFIG = 'config/{configId}',
   DELETE_CONFIG = 'config/{configId}',
+  SET_ACTIVE_CONFIG = 'config/active/{configId}',
   GET_ALL_PORTFOLIOS = 'portfolio',
   GET_PORTFOLIO = 'portfolio/{portfolioId}',
   ADD_PORTFOLIO = 'portfolio',

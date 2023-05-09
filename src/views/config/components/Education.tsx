@@ -54,10 +54,10 @@ export default function Education() {
       <Box display="flex" flexDirection="row">
         <StyledLabel>Education</StyledLabel>
       </Box>
-      {(values?.education || []).length === 0 && (
+      {(values?.educations || []).length === 0 && (
         <EmptyText>No Education Details</EmptyText>
       )}
-      {values?.education?.map((el) => (
+      {values?.educations?.map((el) => (
         <Box
           key={el.title}
           mb={2}
@@ -163,7 +163,7 @@ export default function Education() {
             buttonText="Add"
             outlined
             onClick={() => {
-              const temp = values.education;
+              const temp = values.educations;
               temp.push({ title, description, year });
               setFieldValue('education', temp);
               setTitle('');

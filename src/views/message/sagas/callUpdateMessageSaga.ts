@@ -2,7 +2,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { call, put } from 'redux-saga/effects';
 import errorToast from '../../../common/toast/errorToast';
-import { configActions } from '../slice/configSlice';
+import { messageActions } from '../slice/messageSlice';
 import {
   ApiEndpointUrl,
   ApiRequestMethod,
@@ -10,25 +10,25 @@ import {
   decodePlaceHolder,
 } from '../../../utils/apiService';
 import successToast from '../../../common/toast/successToast';
-import { Config } from '../types';
+import { Message } from '../types';
 
-async function callApi(data: Config) {
-  const url = decodePlaceHolder(ApiEndpointUrl.UPDATE_CONFIG, {
+async function callApi(data: Message) {
+  const url = decodePlaceHolder(ApiEndpointUrl.UPDATE_MESSAGE, {
     configId: data.id,
   });
   return authorizedApiRequest(ApiRequestMethod.PATCH, url, data);
 }
 
-export default function* callUpdateConfigSaga({
+export default function* callUpdateMessageSaga({
   payload,
-}: PayloadAction<Config>) {
+}: PayloadAction<Message>) {
   try {
     yield call(callApi, payload);
     successToast('Success', 'You have successfully updated.');
-    yield put(configActions.updateConfigSuccess());
+    yield put(messageActions.updateMessageSuccess());
   } catch (error) {
-    console.error('callUpdateConfigSaga', error);
+    console.error('callUpdateMessageSaga', error);
     errorToast('Oops', 'Something went wrong please try again later.');
-    yield put(configActions.updateConfigError('error'));
+    yield put(messageActions.updateMessageError('error'));
   }
 }

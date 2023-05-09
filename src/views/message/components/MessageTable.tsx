@@ -13,6 +13,8 @@ import ViewMessageModal from './ViewMessageModal';
 import { Message } from '../types';
 import { MessageSortBy } from '../../../utils/constants';
 import StatusLabel from '../../../common/StatusLabel';
+import {useAppDispatch, useAppSelector} from '../../../store/types';
+import {messageActions} from "../slice/messageSlice";
 
 const CustomTableHeaderCell = materialStyled(TableCell)(() => ({
   fontWeight: 700,
@@ -71,27 +73,9 @@ function showStatusLabel(status: boolean) {
   );
 }
 
-const tempData = [
-  {
-    id: '2',
-    name: 'covid statics',
-    email: 'test@email.com',
-    message: 'This application can show live count of covid statics',
-    date: '2022/08/25',
-    isRead: true,
-  },
-  {
-    id: '3',
-    name: 'covid statics',
-    email: 'test@email.com',
-    message: 'This application can show live count of covid statics',
-    date: '2022/08/25',
-    isRead: false,
-  },
-];
-
 export default function MessageTable() {
   const [searchParams] = useSearchParams();
+  const dispatch = useAppDispatch();
 
   const [isOpenDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
     useState(false);
@@ -104,6 +88,9 @@ export default function MessageTable() {
   );
   const currentSortBy =
     (searchParams.get('sortBy') as MessageSortBy) ?? MessageSortBy.ALL;
+  const { data: messages } = useAppSelector(
+    (state) => state.messageReducer.allMessages,
+  );
 
   return (
     <>
@@ -122,17 +109,19 @@ export default function MessageTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tempData.length === 0 && (
+            {messages.length === 0 && (
               <EmptyTableBody message="No configs to show" colSpan={5} />
             )}
-            {tempData.map((row) => (
+            {messages.map((row) => (
               <TableRow
                 key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <CustomTableDataCell>{row.email}</CustomTableDataCell>
                 <CustomTableDataCell>{row.name}</CustomTableDataCell>
-                <CustomTableDataCell>{row.date}</CustomTableDataCell>
+                <CustomTableDataCell>
+                  {new Date(row.created_at).toLocaleDateString()}
+                </CustomTableDataCell>
                 {currentSortBy === MessageSortBy.ALL && (
                   <CustomTableHeaderCell>
                     {showStatusLabel(row.isRead)}
@@ -179,10 +168,11 @@ export default function MessageTable() {
         }}
         continueButtonText="Delete"
         continueButtonAction={() => {
-          // eslint-disable-next-line no-console
-          console.log(selectedMessageId);
-          setOpenDeleteConfirmationModal(false);
-          setSelectedMessageId(undefined);
+          if (selectedMessageId) {
+            dispatch(messageActions.deleteMessage(selectedMessageId));
+            setOpenDeleteConfirmationModal(false);
+            setSelectedMessageId(undefined);
+          }
         }}
       />
       <ViewMessageModal
@@ -193,7 +183,11 @@ export default function MessageTable() {
         name={selectedMessage?.name || ''}
         email={selectedMessage?.email || ''}
         message={selectedMessage?.message || ''}
-        date={selectedMessage?.date || ''}
+        date={
+          selectedMessage?.message
+            ? new Date(selectedMessage.created_at).toLocaleDateString()
+            : ''
+        }
         isRead={selectedMessage?.isRead || false}
         handleClick={() => {
           // eslint-disable-next-line no-console

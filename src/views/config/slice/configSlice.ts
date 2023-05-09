@@ -24,6 +24,9 @@ const initialState: ConfigState = {
   deleteConfigIsLoading: false,
   deleteConfigIsSuccess: false,
   deleteConfigError: { hasError: false, description: '' },
+  setAsActiveLoading: false,
+  setAsActiveIsSuccess: false,
+  setAsActiveError: { hasError: false, description: '' },
 };
 
 const configSlice = createSlice({
@@ -96,6 +99,19 @@ const configSlice = createSlice({
       state.deleteConfigIsLoading = false;
       state.deleteConfigError = { hasError: true, description: action.payload };
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    setConfigAsActive(state, action: PayloadAction<string>) {
+      state.setAsActiveLoading = true;
+      state.setAsActiveError = { hasError: true, description: '' };
+    },
+    setConfigAsActiveSuccess(state) {
+      state.setAsActiveLoading = false;
+      state.setAsActiveIsSuccess = true;
+    },
+    setConfigAsActiveError(state, action: PayloadAction<string>) {
+      state.setAsActiveLoading = false;
+      state.setAsActiveError = { hasError: true, description: action.payload };
+    },
   },
 });
 
@@ -130,6 +146,12 @@ export const selectConfigDeleteIsSuccess = (state: RootState) =>
   state.configReducer.deleteConfigIsSuccess;
 export const selectConfigDeleteError = (state: RootState) =>
   state.configReducer.deleteConfigError;
+export const selectConfigSetAsActiveLoading = (state: RootState) =>
+  state.configReducer.setAsActiveLoading;
+export const selectConfigSetAsActiveIsSuccess = (state: RootState) =>
+  state.configReducer.setAsActiveIsSuccess;
+export const selectConfigSetAsActiveError = (state: RootState) =>
+  state.configReducer.setAsActiveError;
 
 // Reducer
 const configReducer = configSlice.reducer;

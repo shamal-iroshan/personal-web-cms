@@ -4,6 +4,7 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import TableHeader from '../../../common/TableHeader';
 import { MessageSortBy } from '../../../utils/constants';
 import SortByMenu from './SortByMenu';
+import { useAppSelector } from '../../../store/types';
 
 const sortByMenuForMessage = [
   { value: MessageSortBy.ALL, label: 'All' },
@@ -13,6 +14,7 @@ const sortByMenuForMessage = [
 
 export default function MessageTableHeader() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { total } = useAppSelector((state) => state.messageReducer.allMessages);
 
   const currentSortBy =
     (searchParams.get('sortBy') as MessageSortBy) ?? MessageSortBy.ALL;
@@ -42,7 +44,7 @@ export default function MessageTableHeader() {
   return (
     <TableHeader
       title="Message"
-      total={5}
+      total={total}
       description="Mange messages from here."
     >
       <SortByMenu
