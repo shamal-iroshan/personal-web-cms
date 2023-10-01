@@ -27,7 +27,7 @@ import Work from '../components/Work';
 import { useAppDispatch, useAppSelector } from '../../../store/types';
 import { configActions, selectConfig } from '../slice/configSlice';
 import errorToast from '../../../common/toast/errorToast';
-import {selectIdToken} from "../../signIn/slice/signInSlice";
+import { selectIdToken } from '../../signIn/slice/signInSlice';
 
 interface LabelProps {
   disabled: boolean;

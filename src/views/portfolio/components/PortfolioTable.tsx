@@ -11,6 +11,8 @@ import styled from 'styled-components';
 import EmptyTableBody from '../../../common/EmptyTableBody';
 import ConfirmationModal from '../../../common/ConfirmationModal';
 import { ROUTE_PORTFOLIO } from '../../../common/routes';
+import { useAppDispatch, useAppSelector } from '../../../store/types';
+import { portfolioActions } from '../slice/portfolioSlice';
 
 const CustomTableHeaderCell = materialStyled(TableCell)(() => ({
   fontWeight: 700,
@@ -57,55 +59,17 @@ const CompanyLogo = styled.img`
   object-fit: contain;
 `;
 
-const tempData = [
-  {
-    id: '2',
-    name: 'covid statics',
-    title: 'Covid Static Meter',
-    description: 'This application can show live count of covid statics',
-    image: 'https://document.shamaliroshan.com/covid-statics.png',
-    link: 'https://flamboyant-davinci-7745f3.netlify.app/',
-    createdAt: '2022-01-07T12:44:28.506Z',
-    updatedAt: '2022-02-19T04:28:54.398Z',
-    publishedAt: '2022-01-07T12:44:34.431Z',
-    order: 1,
-  },
-  {
-    id: '3',
-    name: 'story maker',
-    title: 'Story maker',
-    description:
-      'From this application, you can make your own story with friends',
-    image: 'https://document.shamaliroshan.com/story-maker.png',
-    link: 'https://story-maker-74937.web.app/',
-    createdAt: '2022-01-07T12:46:00.821Z',
-    updatedAt: '2022-02-18T22:40:31.701Z',
-    publishedAt: '2022-01-11T16:40:26.157Z',
-    order: 2,
-  },
-  {
-    id: '4',
-    name: 'code camp',
-    title: 'Arduino code camp',
-    description:
-      'Certificate for completing the Arduino code camp held by myhub.lk',
-    image:
-      'https://document.shamaliroshan.com/CODECAMP2106_1625492207866_shamal%20iroshan.jpeg',
-    link: 'https://document.shamaliroshan.com/CODECAMP2106_1625492207866_shamal%20iroshan.jpeg',
-    createdAt: '2022-02-04T16:53:10.204Z',
-    updatedAt: '2022-02-18T22:39:03.143Z',
-    publishedAt: '2022-02-04T16:53:15.288Z',
-    order: 4,
-  },
-];
-
 export default function PortfolioTable() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [isOpenDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
     useState(false);
   const [selectedPortfolioId, setSelectedPortfolioId] = useState<
     string | undefined
   >(undefined);
+  const { data: portfolios } = useAppSelector(
+    (state) => state.portfolioReducer.allPortfolios,
+  );
 
   return (
     <>
@@ -121,10 +85,10 @@ export default function PortfolioTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tempData.length === 0 && (
-              <EmptyTableBody message="No configs to show" colSpan={5} />
+            {portfolios.length === 0 && (
+              <EmptyTableBody message="No portfolios to show" colSpan={5} />
             )}
-            {tempData.map((row) => (
+            {portfolios.map((row) => (
               <TableRow
                 key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -132,7 +96,7 @@ export default function PortfolioTable() {
                 <CustomTableDataCell>{row.order}</CustomTableDataCell>
                 <CustomTableDataCell>{row.title}</CustomTableDataCell>
                 <CustomTableDataCell>
-                  {row?.image ? (
+                  {row?.imageUrl ? (
                     <div
                       style={{
                         border: '1px solid lightgray',
@@ -142,7 +106,7 @@ export default function PortfolioTable() {
                         backgroundColor: 'white',
                       }}
                     >
-                      <CompanyLogo src={row?.image} alt="image" />
+                      <CompanyLogo src={row?.imageUrl} alt="image" />
                     </div>
                   ) : (
                     '-'
@@ -190,10 +154,11 @@ export default function PortfolioTable() {
         }}
         continueButtonText="Delete"
         continueButtonAction={() => {
-          // eslint-disable-next-line no-console
-          console.log(selectedPortfolioId);
-          setOpenDeleteConfirmationModal(false);
-          setSelectedPortfolioId(undefined);
+          if (selectedPortfolioId) {
+            dispatch(portfolioActions.deletePortfolio(selectedPortfolioId));
+            setOpenDeleteConfirmationModal(false);
+            setSelectedPortfolioId(undefined);
+          }
         }}
       />
     </>

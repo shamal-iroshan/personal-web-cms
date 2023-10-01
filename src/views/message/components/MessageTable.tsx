@@ -13,8 +13,8 @@ import ViewMessageModal from './ViewMessageModal';
 import { Message } from '../types';
 import { MessageSortBy } from '../../../utils/constants';
 import StatusLabel from '../../../common/StatusLabel';
-import {useAppDispatch, useAppSelector} from '../../../store/types';
-import {messageActions} from "../slice/messageSlice";
+import { useAppDispatch, useAppSelector } from '../../../store/types';
+import { messageActions } from '../slice/messageSlice';
 
 const CustomTableHeaderCell = materialStyled(TableCell)(() => ({
   fontWeight: 700,

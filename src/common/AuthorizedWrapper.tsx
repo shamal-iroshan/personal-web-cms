@@ -8,8 +8,11 @@ import StyledButton from './StyledButton';
 import AppBar from './AppBar';
 // eslint-disable-next-line import/no-cycle
 import LeftDrawer from './LeftDrawer';
-import {useAppDispatch, useAppSelector} from '../store/types';
-import {selectSignInIsSuccess, signInActions} from '../views/signIn/slice/signInSlice';
+import { useAppDispatch, useAppSelector } from '../store/types';
+import {
+  selectSignInIsSuccess,
+  signInActions,
+} from '../views/signIn/slice/signInSlice';
 import { ROUTE_SIGN_IN } from './routes';
 import { auth } from '../config/firebase';
 

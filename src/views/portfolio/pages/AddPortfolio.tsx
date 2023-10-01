@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -17,6 +17,12 @@ import PageWrapper from '../../../common/PageWrapper';
 import { StyledForm } from '../../../common/StyledBasicComponents';
 import TextInputField from '../../../common/TextInputField';
 import StyledButton from '../../../common/StyledButton';
+import {
+  RootState,
+  useAppDispatch,
+  useAppSelector,
+} from '../../../store/types';
+import { portfolioActions } from '../slice/portfolioSlice';
 
 interface LabelProps {
   disabled: boolean;
@@ -38,40 +44,61 @@ const StyledLabelContainer = styled.div`
 
 export default function AddPortfolio() {
   const { portfolioId } = useParams();
-  const [tempData, setTempData] = useState<Portfolio>();
-  const isLoading = false;
+  const addPortfolioIsLoading = useAppSelector(
+    (state: RootState) => state.portfolioReducer.addPortfolioIsLoading,
+  );
+  const updatePortfolioIsLoading = useAppSelector(
+    (state: RootState) => state.portfolioReducer.updatePortfolioIsLoading,
+  );
+  const getPortfolioIsLoading = useAppSelector(
+    (state: RootState) => state.portfolioReducer.getPortfolioIsLoading,
+  );
+  const portfolio = useAppSelector(
+    (state: RootState) => state.portfolioReducer.portfolio,
+  );
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const isSmallScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('md'),
   );
 
   useEffect(() => {
     if (portfolioId) {
-      setTempData({
-        id: '1',
-        title: 'Arduino code camp',
-        description:
-          'Certificate for completing the Arduino code camp held by myhub.lk',
-        imageUrl:
-          'https://document.shamaliroshan.com/CODECAMP2106_1625492207866_shamal%20iroshan.jpeg',
-        link: 'https://document.shamaliroshan.com/CODECAMP2106_1625492207866_shamal%20iroshan.jpeg',
-        order: 4,
-      });
+      // eslint-disable-next-line no-console
+      console.log('portfolioId', portfolioId);
+      dispatch(portfolioActions.getPortfolio(portfolioId));
+      // setTempData({
+      //   id: '1',
+      //   title: 'Arduino code camp',
+      //   description:
+      //     'Certificate for completing the Arduino code camp held by myhub.lk',
+      //   imageUrl:
+      //     'https://document.shamaliroshan.com/CODECAMP2106_1625492207866_shamal%20iroshan.jpeg',
+      //   link: 'https://document.shamaliroshan.com/CODECAMP2106_1625492207866_shamal%20iroshan.jpeg',
+      //   order: 4,
+      // });
     }
-  }, [portfolioId]);
+  }, [dispatch, portfolioId]);
 
   const initialValues: Portfolio = {
-    id: tempData?.id || '',
-    title: tempData?.title || '',
-    description: tempData?.description || '',
-    imageUrl: tempData?.imageUrl || '',
-    link: tempData?.link || '',
-    order: tempData?.order || 0,
+    title: portfolio?.title || '',
+    description: portfolio?.description || '',
+    imageUrl: portfolio?.imageUrl || '',
+    link: portfolio?.link || '',
+    order: portfolio?.order || 0,
   };
 
   const onSubmit = (values: Portfolio) => {
-    // eslint-disable-next-line no-console
-    console.log(values);
+    if (portfolioId) {
+      dispatch(
+        portfolioActions.updatePortfolio({
+          ...values,
+          id: portfolioId,
+        }),
+      );
+    } else {
+      dispatch(portfolioActions.addPortfolio(values));
+    }
   };
 
   const validationSchema = Yup.object().shape({
@@ -81,14 +108,18 @@ export default function AddPortfolio() {
     order: Yup.number().min(1).required('Order is required'),
   });
 
-  if (isLoading) {
+  if (
+    addPortfolioIsLoading ||
+    updatePortfolioIsLoading ||
+    getPortfolioIsLoading
+  ) {
     return <LoadingContainer />;
   }
 
   return (
     <>
       <PageTitle
-        title={tempData?.title || ''}
+        title={portfolio?.title || ''}
         titleIcon={
           <ArrowBackIcon fontSize={isSmallScreen ? 'medium' : 'large'} />
         }
