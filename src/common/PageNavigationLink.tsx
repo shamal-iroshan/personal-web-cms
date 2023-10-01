@@ -58,7 +58,7 @@ export default function PageNavigationLink(props: PageNavigationLinkProps) {
   const { path, text, icon } = props;
   const isSelected = useMemo(
     () => `/${(location.pathname || '').split('/')?.[1]}` === path,
-    [location.pathname],
+    [location.pathname, path],
   );
   const isSmallScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('md'),

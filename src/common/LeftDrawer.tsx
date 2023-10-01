@@ -69,6 +69,7 @@ export default function LeftDrawer() {
     } else {
       auth.setDrawerOpen(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSmallScreen]);
 
   return (
