@@ -163,7 +163,7 @@ export default function Work() {
             buttonText="Add"
             outlined
             onClick={() => {
-              const temp = values.works;
+              const temp = [...values.works];
               temp.push({ title, description, year });
               setFieldValue('work', temp);
               setTitle('');

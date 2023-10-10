@@ -190,8 +190,14 @@ export default function MessageTable() {
         }
         isRead={selectedMessage?.isRead || false}
         handleClick={() => {
-          // eslint-disable-next-line no-console
-          console.log(selectedMessage?.id);
+          if (selectedMessage) {
+            dispatch(
+              messageActions.updateMessage({
+                ...selectedMessage,
+                isRead: !selectedMessage.isRead,
+              }),
+            );
+          }
           setOpenViewModal(false);
         }}
       />

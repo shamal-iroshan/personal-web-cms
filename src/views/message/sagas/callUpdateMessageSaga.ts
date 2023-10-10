@@ -14,7 +14,7 @@ import { Message } from '../types';
 
 async function callApi(data: Message) {
   const url = decodePlaceHolder(ApiEndpointUrl.UPDATE_MESSAGE, {
-    configId: data.id,
+    messageId: data.id,
   });
   return authorizedApiRequest(ApiRequestMethod.PATCH, url, data);
 }

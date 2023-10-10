@@ -134,7 +134,7 @@ export default function LanguageSkills() {
             buttonText="Add"
             outlined
             onClick={() => {
-              const temp = values.languageSkills;
+              const temp = [...values.languageSkills];
               temp.push({ name, value });
               setFieldValue('languageSkills', temp);
               setName('');

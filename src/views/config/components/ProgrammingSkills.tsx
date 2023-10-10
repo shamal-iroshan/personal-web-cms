@@ -134,7 +134,7 @@ export default function ProgrammingSkills() {
             buttonText="Add"
             outlined
             onClick={() => {
-              const temp = values.programmingSkills;
+              const temp = [...values.programmingSkills];
               temp.push({ name, value });
               setFieldValue('programmingSkills', temp);
               setName('');

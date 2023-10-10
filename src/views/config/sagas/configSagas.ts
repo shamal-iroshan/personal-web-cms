@@ -11,6 +11,7 @@ import callSetActiveConfigSaga from './callSetActiveConfigSaga';
 export default function* configSagas() {
   yield takeLatest(configActions.addConfig, callAddConfigSaga);
   yield takeLatest(configActions.deleteConfig, callDeleteConfigSaga);
+  yield takeLatest(configActions.deleteConfigSuccess, callGetAllConfigsSaga);
   yield takeLatest(configActions.getAllConfigs, callGetAllConfigsSaga);
   yield takeLatest(configActions.getConfig, callGetConfigSaga);
   yield takeLatest(configActions.updateConfig, callUpdateConfigSaga);

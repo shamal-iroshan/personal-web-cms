@@ -11,8 +11,8 @@ import EmptyTableBody from '../../../common/EmptyTableBody';
 import ConfirmationModal from '../../../common/ConfirmationModal';
 import { ROUTE_CONFIG } from '../../../common/routes';
 import StatusLabel from '../../../common/StatusLabel';
-import { useAppSelector } from '../../../store/types';
-import { selectAllConfigs } from '../slice/configSlice';
+import { useAppDispatch, useAppSelector } from '../../../store/types';
+import { configActions, selectAllConfigs } from '../slice/configSlice';
 
 const CustomTableHeaderCell = materialStyled(TableCell)(() => ({
   fontWeight: 700,
@@ -93,6 +93,7 @@ function showActiveLabel(status: boolean) {
 
 export default function ConfigTable() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const configs = useAppSelector(selectAllConfigs);
   const [isOpenDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
     useState(false);
@@ -169,8 +170,9 @@ export default function ConfigTable() {
         }}
         continueButtonText="Delete"
         continueButtonAction={() => {
-          // eslint-disable-next-line no-console
-          console.log(selectedConfigId);
+          if (selectedConfigId) {
+            dispatch(configActions.deleteConfig(selectedConfigId));
+          }
           setOpenDeleteConfirmationModal(false);
           setSelectedConfigId(undefined);
         }}

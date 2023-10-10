@@ -163,7 +163,7 @@ export default function Education() {
             buttonText="Add"
             outlined
             onClick={() => {
-              const temp = values.educations;
+              const temp = [...values.educations];
               temp.push({ title, description, year });
               setFieldValue('education', temp);
               setTitle('');
