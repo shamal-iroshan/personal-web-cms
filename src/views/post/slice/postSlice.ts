@@ -11,7 +11,7 @@ const initialState: PostState = {
   getAllPostIsLoading: false,
   getAllPostIsSuccess: false,
   getAllPostError: { hasError: false, description: '' },
-  Post: undefined,
+  post: undefined,
   getPostIsLoading: false,
   getPostIsSuccess: false,
   getPostError: { hasError: false, description: '' },
@@ -53,7 +53,7 @@ const postSlice = createSlice({
     },
     getPostSuccess(state, action: PayloadAction<Post>) {
       state.getPostIsLoading = false;
-      state.Post = action.payload;
+      state.post = action.payload;
       state.getPostIsSuccess = true;
     },
     getPostError(state, action: PayloadAction<string>) {
@@ -125,7 +125,7 @@ export const selectGetAllPostIsSuccess = (state: RootState) =>
   state.postReducer.getAllPostIsSuccess;
 export const selectGetAllPostError = (state: RootState) =>
   state.postReducer.getAllPostError;
-export const selectPost = (state: RootState) => state.postReducer.Post;
+export const selectPost = (state: RootState) => state.postReducer.post;
 export const selectGetPostIsLoading = (state: RootState) =>
   state.postReducer.getPostIsLoading;
 export const selectGetPostIsSuccess = (state: RootState) =>
