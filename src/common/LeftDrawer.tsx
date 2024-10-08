@@ -6,12 +6,18 @@ import styled from 'styled-components';
 import SettingsIcon from '@mui/icons-material/Settings';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import MessageIcon from '@mui/icons-material/Message';
+import SourceIcon from '@mui/icons-material/Source';
 // eslint-disable-next-line import/no-cycle
 import { AuthContext } from '../App';
 import LeftDrawerSkeleton from './LeftDrawerSkeleton';
 // eslint-disable-next-line import/no-cycle
 import PageNavigationLink from './PageNavigationLink';
-import { ROUTE_CONFIG, ROUTE_MESSAGE, ROUTE_PORTFOLIO } from './routes';
+import {
+  ROUTE_CONFIG,
+  ROUTE_MESSAGE,
+  ROUTE_PORTFOLIO,
+  ROUTE_POST,
+} from './routes';
 
 const drawerWidth = 240;
 
@@ -93,6 +99,11 @@ export default function LeftDrawer() {
               path={ROUTE_MESSAGE}
               text="Messages"
               icon={<MessageIcon />}
+            />
+            <PageNavigationLink
+              path={ROUTE_POST}
+              text="Posts"
+              icon={<SourceIcon />}
             />
           </>
         )}

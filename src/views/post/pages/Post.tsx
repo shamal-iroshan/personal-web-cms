@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PageTitle from '../../../common/PageTitle';
-import { ROUTE_PORTFOLIO } from '../../../common/routes';
+import { ROUTE_POST } from '../../../common/routes';
 import PageWrapper from '../../../common/PageWrapper';
-import PortfolioTableHeader from '../components/PortfolioTableHeader';
-import PortfolioTable from '../components/PortfolioTable';
-import PortfolioTableFooter from '../components/PortfolioTableFooter';
+import PostTableHeader from '../components/PostTableHeader';
+import PostTable from '../components/PostTable';
+import PostTableFooter from '../components/PostTableFooter';
 import { useAppDispatch, useAppSelector } from '../../../store/types';
 import { selectIdToken } from '../../signIn/slice/signInSlice';
 // import { portfolioActions } from '../slice/portfolioSlice';
@@ -24,14 +24,14 @@ export default function Portfolio() {
   return (
     <>
       <PageTitle
-        title="Portfolio"
+        title="Post"
         actionButtonText="Add"
-        action={() => navigate(`${ROUTE_PORTFOLIO}/add`, { replace: false })}
+        action={() => navigate(`${ROUTE_POST}/add`, { replace: false })}
       />
       <PageWrapper>
-        <PortfolioTableHeader />
-        <PortfolioTable />
-        <PortfolioTableFooter />
+        <PostTableHeader />
+        <PostTable />
+        <PostTableFooter />
       </PageWrapper>
     </>
   );

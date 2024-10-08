@@ -6,7 +6,7 @@ import PageWrapper from '../../../common/PageWrapper';
 import ConfigTableHeader from '../components/ConfigTableHeader';
 import ConfigTable from '../components/ConfigTable';
 import { useAppDispatch, useAppSelector } from '../../../store/types';
-import { configActions } from '../slice/configSlice';
+// import { configActions } from '../slice/configSlice';
 import { selectIdToken } from '../../signIn/slice/signInSlice';
 
 export default function Config() {
@@ -16,7 +16,7 @@ export default function Config() {
 
   useEffect(() => {
     if (idToken) {
-      dispatch(configActions.getAllConfigs());
+      // dispatch(configActions.getAllConfigs());
     }
   }, [dispatch, idToken]);
 

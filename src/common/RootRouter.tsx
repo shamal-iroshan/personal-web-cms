@@ -4,6 +4,7 @@ import {
   ROUTE_CONFIG,
   ROUTE_MESSAGE,
   ROUTE_PORTFOLIO,
+  ROUTE_POST,
   ROUTE_SIGN_IN,
 } from './routes';
 import GuestWrapper from './GuestWrapper';
@@ -15,6 +16,7 @@ import AddConfig from '../views/config/pages/AddConfig';
 import Portfolio from '../views/portfolio/pages/Portfolio';
 import AddPortfolio from '../views/portfolio/pages/AddPortfolio';
 import Message from '../views/message/pages/Message';
+import Post from '../views/post/pages/Post';
 
 export default function RootRouter() {
   const location = useLocation();
@@ -68,6 +70,18 @@ export default function RootRouter() {
         }
       >
         <Route index element={<Message />} />
+      </Route>
+      <Route
+        path={ROUTE_POST}
+        element={
+          <AuthorizedWrapper>
+            <Outlet />
+          </AuthorizedWrapper>
+        }
+      >
+        <Route index element={<Post />} />
+        {/* <Route path="add" element={<AddPortfolio />} />
+        <Route path=":portfolioId" element={<AddPortfolio />} /> */}
       </Route>
       <Route path="/" element={<Navigate to={ROUTE_SIGN_IN} replace />} />
       <Route path="*" element={<h1>Oops!</h1>} />

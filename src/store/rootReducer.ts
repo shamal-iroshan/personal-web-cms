@@ -4,12 +4,14 @@ import signInReducer from '../views/signIn/slice/signInSlice';
 import configReducer from '../views/config/slice/configSlice';
 import messageReducer from '../views/message/slice/messageSlice';
 import portfolioReducer from '../views/portfolio/slice/portfolioSlice';
+import postReducer from '../views/post/slice/postSlice';
 
 const rootReducer = combineReducers({
   signInReducer,
   configReducer,
   messageReducer,
   portfolioReducer,
+  postReducer,
 });
 
 export default rootReducer;
