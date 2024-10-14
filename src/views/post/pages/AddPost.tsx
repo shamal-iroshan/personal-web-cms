@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -10,10 +10,11 @@ import Grid from '@mui/material/Grid';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Box from '@mui/material/Box';
 import SimpleMDE from 'react-simplemde-editor';
+import ReactMarkdown from 'react-markdown';
 import { Post } from '../types';
 import LoadingContainer from '../../../common/LoadingContainer';
 import PageTitle from '../../../common/PageTitle';
-import { ROUTE_PORTFOLIO } from '../../../common/routes';
+import { ROUTE_POST } from '../../../common/routes';
 import PageWrapper from '../../../common/PageWrapper';
 import { StyledForm } from '../../../common/StyledBasicComponents';
 import TextInputField from '../../../common/TextInputField';
@@ -47,6 +48,18 @@ const StyledLabelContainer = styled.div`
 const MarkdownContainer = styled.div`
   width: 100%;
   height: 100%;
+  display: flex;
+  gap: 5px;
+
+  & .preview-container {
+    width: 50%;
+    border-left: 1px solid #e3e8ef;
+    padding-left: 5px;
+  }
+
+  & .editor-container {
+    width: 50%;
+  }
 
   .editor-toolbar.fullscreen {
     z-index: 9999;
@@ -63,6 +76,9 @@ const MarkdownContainer = styled.div`
 
 export default function AddPost() {
   const { postId } = useParams();
+
+  const [mdeContent, setMdeContent] = useState('');
+
   const addPostIsLoading = useAppSelector(
     (state: RootState) => state.postReducer.addPostIsLoading,
   );
@@ -96,6 +112,10 @@ export default function AddPost() {
       // });
     }
   }, [dispatch, postId]);
+
+  const handleOnChangeEditorChange = useCallback((data: string) => {
+    setMdeContent(data);
+  }, []);
 
   const initialValues: Post = {
     title: post?.title || '',
@@ -133,7 +153,7 @@ export default function AddPost() {
         titleIcon={
           <ArrowBackIcon fontSize={isSmallScreen ? 'medium' : 'large'} />
         }
-        titleIconAction={() => navigate(ROUTE_PORTFOLIO, { replace: true })}
+        titleIconAction={() => navigate(ROUTE_POST, { replace: true })}
       />
       <PageWrapper>
         <Formik
@@ -184,7 +204,41 @@ export default function AddPost() {
                 </Grid>
                 <Grid item xs={12} lg={12}>
                   <MarkdownContainer>
-                    <SimpleMDE />
+                    <div className="editor-container">
+                      <SimpleMDE
+                        value={mdeContent}
+                        onChange={handleOnChangeEditorChange}
+                        options={{
+                          autofocus: true,
+                          spellChecker: false,
+                          toolbar: [
+                            'bold',
+                            'italic',
+                            'heading',
+                            'heading-smaller',
+                            'heading-bigger',
+                            '|',
+                            'code',
+                            'quote',
+                            'unordered-list',
+                            'ordered-list',
+                            'link',
+                            'table',
+                            'horizontal-rule',
+                            '|',
+                            'link',
+                            'image',
+                            '|',
+                            'clean-block',
+                            '|',
+                            'guide',
+                          ],
+                        }}
+                      />
+                    </div>
+                    <div className="preview-container">
+                      <ReactMarkdown>{mdeContent}</ReactMarkdown>
+                    </div>
                   </MarkdownContainer>
                 </Grid>
               </Grid>
@@ -198,7 +252,7 @@ export default function AddPost() {
                 <StyledButton
                   buttonText="Go Back"
                   outlined
-                  onClick={() => navigate(ROUTE_PORTFOLIO, { replace: true })}
+                  onClick={() => navigate(ROUTE_POST, { replace: true })}
                 />
                 <StyledButton
                   type="submit"
