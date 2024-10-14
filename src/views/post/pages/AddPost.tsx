@@ -9,6 +9,7 @@ import { Formik } from 'formik';
 import Grid from '@mui/material/Grid';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Box from '@mui/material/Box';
+import SimpleMDE from 'react-simplemde-editor';
 import { Post } from '../types';
 import LoadingContainer from '../../../common/LoadingContainer';
 import PageTitle from '../../../common/PageTitle';
@@ -23,6 +24,7 @@ import {
   useAppSelector,
 } from '../../../store/types';
 import { postActions } from '../slice/postSlice';
+import 'easymde/dist/easymde.min.css';
 
 interface LabelProps {
   disabled: boolean;
@@ -40,6 +42,23 @@ const StyledLabel = styled.p<LabelProps>`
 const StyledLabelContainer = styled.div`
   display: flex;
   flex-direction: row;
+`;
+
+const MarkdownContainer = styled.div`
+  width: 100%;
+  height: 100%;
+
+  .editor-toolbar.fullscreen {
+    z-index: 9999;
+  }
+
+  .CodeMirror.cm-s-easymde.CodeMirror-wrap.CodeMirror-fullscreen {
+    z-index: 9999;
+  }
+
+  .editor-preview-side.editor-preview.editor-preview-active-side {
+    z-index: 9999;
+  }
 `;
 
 export default function AddPost() {
@@ -164,7 +183,9 @@ export default function AddPost() {
                   />
                 </Grid>
                 <Grid item xs={12} lg={12}>
-                  this needs to be markdown
+                  <MarkdownContainer>
+                    <SimpleMDE />
+                  </MarkdownContainer>
                 </Grid>
               </Grid>
               <Box
