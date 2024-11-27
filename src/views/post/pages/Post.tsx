@@ -8,7 +8,7 @@ import PostTable from '../components/PostTable';
 import PostTableFooter from '../components/PostTableFooter';
 import { useAppDispatch, useAppSelector } from '../../../store/types';
 import { selectIdToken } from '../../signIn/slice/signInSlice';
-// import { portfolioActions } from '../slice/portfolioSlice';
+import { postActions } from '../slice/postSlice';
 
 export default function Portfolio() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export default function Portfolio() {
 
   useEffect(() => {
     if (idToken) {
-      // dispatch(portfolioActions.getAllPortfolios());
+      dispatch(postActions.getAllPosts());
     }
   }, [dispatch, idToken]);
 

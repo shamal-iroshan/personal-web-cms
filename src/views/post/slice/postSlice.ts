@@ -34,12 +34,12 @@ const postSlice = createSlice({
       state.getAllPostIsLoading = true;
       state.getAllPostError = { hasError: false, description: '' };
     },
-    getAllPostSuccess(state, action: PayloadAction<AllPosts>) {
+    getAllPostsSuccess(state, action: PayloadAction<AllPosts>) {
       state.getAllPostIsLoading = false;
       state.getAllPostIsSuccess = true;
       state.allPosts = action.payload;
     },
-    getAllPostError(state, action: PayloadAction<string>) {
+    getAllPostsError(state, action: PayloadAction<string>) {
       state.getAllPostIsLoading = false;
       state.getAllPostError = {
         hasError: true,
