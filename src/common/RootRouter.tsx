@@ -82,7 +82,7 @@ export default function RootRouter() {
       >
         <Route index element={<Post />} />
         <Route path="add" element={<AddPost />} />
-        <Route path=":portfolioId" element={<AddPost />} />
+        <Route path=":postId" element={<AddPost />} />
       </Route>
       <Route path="/" element={<Navigate to={ROUTE_SIGN_IN} replace />} />
       <Route path="*" element={<h1>Oops!</h1>} />

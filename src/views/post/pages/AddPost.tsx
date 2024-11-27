@@ -26,6 +26,7 @@ import {
 } from '../../../store/types';
 import { postActions } from '../slice/postSlice';
 import 'easymde/dist/easymde.min.css';
+import { selectIdToken } from '../../signIn/slice/signInSlice';
 
 interface LabelProps {
   disabled: boolean;
@@ -87,6 +88,7 @@ export default function AddPost() {
     (state: RootState) => state.postReducer.getPostIsLoading,
   );
   const post = useAppSelector((state: RootState) => state.postReducer.post);
+  const idToken = useAppSelector(selectIdToken);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const isSmallScreen = useMediaQuery((theme: Theme) =>
@@ -94,22 +96,10 @@ export default function AddPost() {
   );
 
   useEffect(() => {
-    if (postId) {
-      // eslint-disable-next-line no-console
-      console.log('postId', postId);
+    if (postId && idToken) {
       dispatch(postActions.getPost(postId));
-      // setTempData({
-      //   id: '1',
-      //   title: 'Arduino code camp',
-      //   description:
-      //     'Certificate for completing the Arduino code camp held by myhub.lk',
-      //   imageUrl:
-      //     'https://document.shamaliroshan.com/CODECAMP2106_1625492207866_shamal%20iroshan.jpeg',
-      //   link: 'https://document.shamaliroshan.com/CODECAMP2106_1625492207866_shamal%20iroshan.jpeg',
-      //   order: 4,
-      // });
     }
-  }, [dispatch, postId]);
+  }, [dispatch, idToken, postId]);
 
   const initialValues: Post = {
     title: post?.title || '',

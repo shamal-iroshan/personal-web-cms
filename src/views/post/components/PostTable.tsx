@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router-dom';
 import EmptyTableBody from '../../../common/EmptyTableBody';
 import ConfirmationModal from '../../../common/ConfirmationModal';
-import { ROUTE_PORTFOLIO } from '../../../common/routes';
+import { ROUTE_POST } from '../../../common/routes';
 import { useAppDispatch, useAppSelector } from '../../../store/types';
 import { postActions } from '../slice/postSlice';
 
@@ -96,7 +96,7 @@ export default function PostTable() {
                 <CustomTableDataEditCell>
                   <IconButton
                     onClick={() =>
-                      navigate(`${ROUTE_PORTFOLIO}/${row.id}`, {
+                      navigate(`${ROUTE_POST}/${row.id}`, {
                         replace: false,
                       })
                     }
