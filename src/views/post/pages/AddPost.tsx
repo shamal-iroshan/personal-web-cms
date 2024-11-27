@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -77,8 +77,6 @@ const MarkdownContainer = styled.div`
 export default function AddPost() {
   const { postId } = useParams();
 
-  const [mdeContent, setMdeContent] = useState('');
-
   const addPostIsLoading = useAppSelector(
     (state: RootState) => state.postReducer.addPostIsLoading,
   );
@@ -113,10 +111,6 @@ export default function AddPost() {
     }
   }, [dispatch, postId]);
 
-  const handleOnChangeEditorChange = useCallback((data: string) => {
-    setMdeContent(data);
-  }, []);
-
   const initialValues: Post = {
     title: post?.title || '',
     description: post?.description || '',
@@ -132,6 +126,7 @@ export default function AddPost() {
         }),
       );
     } else {
+      console.log('values', values);
       dispatch(postActions.addPost(values));
     }
   };
@@ -206,11 +201,9 @@ export default function AddPost() {
                   <MarkdownContainer>
                     <div className="editor-container">
                       <SimpleMDE
-                        value={mdeContent}
-                        onChange={handleOnChangeEditorChange}
+                        value={values.content}
+                        onChange={(value) => setFieldValue('content', value)}
                         options={{
-                          autofocus: true,
-                          spellChecker: false,
                           toolbar: [
                             'bold',
                             'italic',
@@ -237,7 +230,7 @@ export default function AddPost() {
                       />
                     </div>
                     <div className="preview-container">
-                      <ReactMarkdown>{mdeContent}</ReactMarkdown>
+                      <ReactMarkdown>{values.content}</ReactMarkdown>
                     </div>
                   </MarkdownContainer>
                 </Grid>
