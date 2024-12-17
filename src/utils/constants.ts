@@ -6,4 +6,6 @@ export enum MessageSortBy {
 
 export enum FirebaseCollections {
   POSTS = 'posts',
+  CATEGORIES = 'categories',
+  AUTHORS = 'authors',
 }

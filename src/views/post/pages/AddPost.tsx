@@ -27,6 +27,10 @@ import {
 import { postActions } from '../slice/postSlice';
 import 'easymde/dist/easymde.min.css';
 import { selectIdToken } from '../../signIn/slice/signInSlice';
+import SelectField from '../../../common/SelectField';
+import AddCategoryModal from '../../../common/AddCategoryModal';
+import AddAuthorModal from '../../../common/AddAuthorModal';
+import CheckBoxField from '../../../common/CheckBoxField';
 
 interface LabelProps {
   disabled: boolean;
@@ -78,6 +82,16 @@ const MarkdownContainer = styled.div`
 export default function AddPost() {
   const { postId } = useParams();
 
+  const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] =
+    React.useState(false);
+  const [isAddAuthorModalOpen, setIsAddAuthorModalOpen] = React.useState(false);
+
+  const categories = useAppSelector(
+    (state: RootState) => state.postReducer.allCategories,
+  );
+  const authors = useAppSelector(
+    (state: RootState) => state.postReducer.allAuthors,
+  );
   const addPostIsLoading = useAppSelector(
     (state: RootState) => state.postReducer.addPostIsLoading,
   );
@@ -96,15 +110,37 @@ export default function AddPost() {
   );
 
   useEffect(() => {
+    dispatch(postActions.getAllCategories());
+    dispatch(postActions.getAllAuthors());
+  }, [dispatch]);
+
+  useEffect(() => {
     if (postId && idToken) {
       dispatch(postActions.getPost(postId));
     }
   }, [dispatch, idToken, postId]);
 
+  const processCategories = categories.map((category) => ({
+    value: category.id || '',
+    label: category.name,
+  }));
+
+  const processAuthors = authors.map((author) => ({
+    value: author.id || '',
+    label: author.name,
+  }));
+
   const initialValues: Post = {
     title: post?.title || '',
+    published: post?.published || false,
     description: post?.description || '',
     content: post?.content || '',
+    category: post?.category || '',
+    image: post?.image || '',
+    readTime: post?.readTime || '',
+    date: post?.date || '',
+    slug: post?.slug || '',
+    author: post?.author || '',
   };
 
   const onSubmit = (values: Post) => {
@@ -116,15 +152,21 @@ export default function AddPost() {
         }),
       );
     } else {
-      console.log('values', values);
       dispatch(postActions.addPost(values));
     }
   };
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
+    published: Yup.boolean().required('Published is required'),
     description: Yup.string().notRequired(),
     content: Yup.string().required('Content is required'),
+    category: Yup.string().required('Category is required'),
+    image: Yup.string().required('Image is required'),
+    readTime: Yup.string().required('Read time is required'),
+    date: Yup.string().required('Date is required'),
+    slug: Yup.string().required('Slug is required'),
+    author: Yup.string().required('Author is required'),
   });
 
   if (addPostIsLoading || updatePostIsLoading || getPostIsLoading) {
@@ -155,6 +197,96 @@ export default function AddPost() {
                     name="title"
                     label="Title"
                     placeholder="Enter title here"
+                    required
+                    markAsRequired
+                  />
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <StyledLabelContainer>
+                    <StyledLabel disabled={false}>Published</StyledLabel>
+                  </StyledLabelContainer>
+                  <CheckBoxField
+                    text="Published"
+                    setChecked={() => {
+                      setFieldValue('published', !values.published);
+                    }}
+                    checked={values.published}
+                  />
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <Grid container alignItems="end" columnSpacing={2}>
+                    <Grid item xs={12} lg={6}>
+                      <SelectField
+                        name="category"
+                        label="Category"
+                        placeholder="Select category here"
+                        options={processCategories}
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <StyledButton
+                        buttonText="Add category"
+                        outlined
+                        onClick={() => setIsAddCategoryModalOpen(true)}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <TextInputField
+                    name="image"
+                    label="Image Link"
+                    placeholder="Enter image link here"
+                    required
+                    markAsRequired
+                  />
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <TextInputField
+                    name="readTime"
+                    label="Read time"
+                    placeholder="Enter read time here"
+                    required
+                    markAsRequired
+                    type="number"
+                  />
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <Grid item xs={12} lg={6}>
+                    <TextInputField
+                      name="date"
+                      label="Date"
+                      placeholder="Select date here"
+                      required
+                      markAsRequired
+                      type="date"
+                    />
+                  </Grid>
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <Grid container alignItems="end" columnSpacing={2}>
+                    <Grid item xs={12} lg={6}>
+                      <SelectField
+                        name="author"
+                        label="Author"
+                        placeholder="Select author here"
+                        options={processAuthors}
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <StyledButton
+                        buttonText="Add author"
+                        outlined
+                        onClick={() => setIsAddAuthorModalOpen(true)}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <TextInputField
+                    name="slug"
+                    label="Slug"
+                    placeholder="Enter slug here"
                     required
                     markAsRequired
                   />
@@ -248,6 +380,16 @@ export default function AddPost() {
           )}
         </Formik>
       </PageWrapper>
+
+      <AddCategoryModal
+        open={isAddCategoryModalOpen}
+        handleClose={() => setIsAddCategoryModalOpen(false)}
+      />
+
+      <AddAuthorModal
+        open={isAddAuthorModalOpen}
+        handleClose={() => setIsAddAuthorModalOpen(false)}
+      />
     </>
   );
 }

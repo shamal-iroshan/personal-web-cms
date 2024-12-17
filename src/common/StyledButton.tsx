@@ -21,7 +21,7 @@ const MaterialStyledButton = materialStyled(Button)(
   }: ButtonProps) => ({
     color: textcolor,
     background,
-    height: issmallbutton ? 37 : 44,
+    height: issmallbutton ? 37 : 48,
     minWidth: 112,
     padding: '0 20px',
     borderRadius: 12,

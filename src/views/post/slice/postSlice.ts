@@ -1,6 +1,6 @@
 /* eslint-disable import/no-cycle */
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { AllPosts, Post, PostState } from '../types';
+import { AllPosts, Author, Category, Post, PostState } from '../types';
 import { RootState } from '../../../store/types';
 
 const initialState: PostState = {
@@ -24,6 +24,20 @@ const initialState: PostState = {
   deletePostIsLoading: false,
   deletePostIsSuccess: false,
   deletePostError: { hasError: false, description: '' },
+  getAllCategoryIsLoading: false,
+  getAllCategoryIsSuccess: false,
+  getAllCategoryError: { hasError: false, description: '' },
+  allCategories: [],
+  addCategoryIsLoading: false,
+  addCategoryIsSuccess: false,
+  addCategoryError: { hasError: false, description: '' },
+  getAllAuthorsIsLoading: false,
+  getAllAuthorsIsSuccess: false,
+  getAllAuthorsError: { hasError: false, description: '' },
+  allAuthors: [],
+  addAuthorIsLoading: false,
+  addAuthorIsSuccess: false,
+  addAuthorError: { hasError: false, description: '' },
 };
 
 const postSlice = createSlice({
@@ -111,6 +125,70 @@ const postSlice = createSlice({
         description: action.payload,
       };
     },
+    getAllCategories(state) {
+      state.getAllCategoryIsLoading = true;
+      state.getAllCategoryError = { hasError: false, description: '' };
+    },
+    getAllCategoriesSuccess(state, action: PayloadAction<Category[]>) {
+      state.getAllCategoryIsLoading = false;
+      state.getAllCategoryIsSuccess = true;
+      state.allCategories = action.payload;
+    },
+    getAllCategoriesError(state, action: PayloadAction<string>) {
+      state.getAllCategoryIsLoading = false;
+      state.getAllCategoryError = {
+        hasError: true,
+        description: action.payload,
+      };
+    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    addCategory(state, action: PayloadAction<Category>) {
+      state.getAllCategoryIsLoading = true;
+      state.getAllCategoryError = { hasError: false, description: '' };
+    },
+    addCategorySuccess(state) {
+      state.addCategoryIsLoading = false;
+      state.addCategoryIsSuccess = true;
+    },
+    addCategoryError(state, action: PayloadAction<string>) {
+      state.addCategoryIsLoading = false;
+      state.addCategoryError = {
+        hasError: true,
+        description: action.payload,
+      };
+    },
+    getAllAuthors(state) {
+      state.getAllAuthorsIsLoading = true;
+      state.getAllAuthorsError = { hasError: false, description: '' };
+    },
+    getAllAuthorsSuccess(state, action: PayloadAction<Author[]>) {
+      state.getAllAuthorsIsLoading = false;
+      state.getAllAuthorsIsSuccess = true;
+      state.allAuthors = action.payload;
+    },
+    getAllAuthorsError(state, action: PayloadAction<string>) {
+      state.getAllAuthorsIsLoading = false;
+      state.getAllAuthorsError = {
+        hasError: true,
+        description: action.payload,
+      };
+    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    addAuthor(state, action: PayloadAction<Author>) {
+      state.addAuthorIsLoading = true;
+      state.addAuthorError = { hasError: false, description: '' };
+    },
+    addAuthorSuccess(state) {
+      state.addAuthorIsLoading = false;
+      state.addAuthorIsSuccess = true;
+    },
+    addAuthorError(state, action: PayloadAction<string>) {
+      state.addAuthorIsLoading = false;
+      state.addAuthorError = {
+        hasError: true,
+        description: action.payload,
+      };
+    },
   },
 });
 
@@ -150,6 +228,22 @@ export const selectDeletePostIsSuccess = (state: RootState) =>
   state.postReducer.deletePostIsSuccess;
 export const selectDeletePostError = (state: RootState) =>
   state.postReducer.deletePostError;
+export const selectAllCategories = (state: RootState) =>
+  state.postReducer.allCategories;
+export const selectGetAllCategoryIsLoading = (state: RootState) =>
+  state.postReducer.getAllCategoryIsLoading;
+export const selectGetAllCategoryIsSuccess = (state: RootState) =>
+  state.postReducer.getAllCategoryIsSuccess;
+export const selectGetAllCategoryError = (state: RootState) =>
+  state.postReducer.getAllCategoryError;
+export const selectAllAuthors = (state: RootState) =>
+  state.postReducer.allAuthors;
+export const selectGetAllAuthorsIsLoading = (state: RootState) =>
+  state.postReducer.getAllAuthorsIsLoading;
+export const selectGetAllAuthorsIsSuccess = (state: RootState) =>
+  state.postReducer.getAllAuthorsIsSuccess;
+export const selectGetAllAuthorsError = (state: RootState) =>
+  state.postReducer.getAllAuthorsError;
 
 // Reducer
 const postReducer = postSlice.reducer;
