@@ -11,6 +11,13 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import Box from '@mui/material/Box';
 import SimpleMDE from 'react-simplemde-editor';
 import ReactMarkdown from 'react-markdown';
+import rehypeHighlight from 'rehype-highlight';
+import rehypeKatex from 'rehype-katex';
+import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import supersub from 'remark-supersub';
+import remarkTextr from 'remark-textr';
 import { Post } from '../types';
 import LoadingContainer from '../../../common/LoadingContainer';
 import PageTitle from '../../../common/PageTitle';
@@ -108,6 +115,17 @@ export default function AddPost() {
   const isSmallScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('md'),
   );
+
+  // Transform ASCII characters to HTML entities
+  const asciiTransformer = (input: string) => {
+    const ellipsisReplaced: string = input.replace(/\.\.\./g, '…');
+    const emDashReplaced: string = ellipsisReplaced.replace(/---/g, '—');
+    const curlyQuotesReplaced: string = emDashReplaced.replace(
+      /"([^"]*)"/g,
+      '“$1”',
+    );
+    return curlyQuotesReplaced;
+  };
 
   useEffect(() => {
     dispatch(postActions.getAllCategories());
@@ -352,7 +370,21 @@ export default function AddPost() {
                       />
                     </div>
                     <div className="preview-container">
-                      <ReactMarkdown>{values.content}</ReactMarkdown>
+                      <ReactMarkdown
+                        remarkPlugins={[
+                          [remarkGfm, { singleTilde: false }],
+                          remarkMath,
+                          supersub,
+                          [remarkTextr, { plugins: [asciiTransformer] }],
+                        ]}
+                        rehypePlugins={[
+                          rehypeKatex,
+                          rehypeRaw,
+                          rehypeHighlight,
+                        ]}
+                      >
+                        {values.content}
+                      </ReactMarkdown>
                     </div>
                   </MarkdownContainer>
                 </Grid>
