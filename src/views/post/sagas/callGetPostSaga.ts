@@ -12,7 +12,21 @@ async function callApi(postId: string) {
   const docSnap = await getDoc(doc(db, FirebaseCollections.POSTS, postId));
 
   if (docSnap.exists()) {
-    return docSnap.data() as Post;
+    const post = docSnap.data();
+    const authorRef = post.author;
+    const categoryRef = post.category;
+
+    const authorSnap = await getDoc(authorRef);
+    const categorySnap = await getDoc(categoryRef);
+
+    const authorId = authorSnap.id;
+    const categoryId = categorySnap.id;
+
+    return {
+      ...post,
+      author: authorId,
+      category: categoryId,
+    };
   }
   return null;
 }
