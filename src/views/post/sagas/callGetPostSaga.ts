@@ -8,6 +8,10 @@ import { postActions } from '../slice/postSlice';
 import { db } from '../../../config/firebase';
 import { FirebaseCollections } from '../../../utils/constants';
 
+interface Content {
+  content: string;
+}
+
 async function callApi(postId: string) {
   const docSnap = await getDoc(doc(db, FirebaseCollections.POSTS, postId));
 
@@ -15,17 +19,22 @@ async function callApi(postId: string) {
     const post = docSnap.data();
     const authorRef = post.author;
     const categoryRef = post.category;
+    const contentRef = post.content;
 
     const authorSnap = await getDoc(authorRef);
     const categorySnap = await getDoc(categoryRef);
+    const contentSnap = await getDoc(contentRef);
 
     const authorId = authorSnap.id;
     const categoryId = categorySnap.id;
+
+    const content = contentSnap.data() as Content;
 
     return {
       ...post,
       author: authorId,
       category: categoryId,
+      content: content.content,
     };
   }
   return null;

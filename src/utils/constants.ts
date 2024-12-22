@@ -8,4 +8,5 @@ export enum FirebaseCollections {
   POSTS = 'posts',
   CATEGORIES = 'categories',
   AUTHORS = 'authors',
+  POST_CONTENTS = 'post-contents',
 }

@@ -38,6 +38,7 @@ import SelectField from '../../../common/SelectField';
 import AddCategoryModal from '../../../common/AddCategoryModal';
 import AddAuthorModal from '../../../common/AddAuthorModal';
 import CheckBoxField from '../../../common/CheckBoxField';
+import { calculateReadingTime } from '../../../utils';
 
 interface LabelProps {
   disabled: boolean;
@@ -162,15 +163,23 @@ export default function AddPost() {
   };
 
   const onSubmit = (values: Post) => {
+    const readTime = calculateReadingTime(values.content);
+
     if (postId) {
       dispatch(
         postActions.updatePost({
           ...values,
           id: postId,
+          readTime: `${readTime} min read`,
         }),
       );
     } else {
-      dispatch(postActions.addPost(values));
+      dispatch(
+        postActions.addPost({
+          ...values,
+          readTime: `${readTime} min read`,
+        }),
+      );
     }
   };
 
@@ -181,7 +190,6 @@ export default function AddPost() {
     content: Yup.string().required('Content is required'),
     category: Yup.string().required('Category is required'),
     image: Yup.string().required('Image is required'),
-    readTime: Yup.string().required('Read time is required'),
     date: Yup.string().required('Date is required'),
     slug: Yup.string().required('Slug is required'),
     author: Yup.string().required('Author is required'),
@@ -260,28 +268,6 @@ export default function AddPost() {
                   />
                 </Grid>
                 <Grid item xs={12} lg={6}>
-                  <TextInputField
-                    name="readTime"
-                    label="Read time"
-                    placeholder="Enter read time here"
-                    required
-                    markAsRequired
-                    type="number"
-                  />
-                </Grid>
-                <Grid item xs={12} lg={6}>
-                  <Grid item xs={12} lg={6}>
-                    <TextInputField
-                      name="date"
-                      label="Date"
-                      placeholder="Select date here"
-                      required
-                      markAsRequired
-                      type="date"
-                    />
-                  </Grid>
-                </Grid>
-                <Grid item xs={12} lg={6}>
                   <Grid container alignItems="end" columnSpacing={2}>
                     <Grid item xs={12} lg={6}>
                       <SelectField
@@ -298,6 +284,18 @@ export default function AddPost() {
                         onClick={() => setIsAddAuthorModalOpen(true)}
                       />
                     </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <Grid item xs={12} lg={6}>
+                    <TextInputField
+                      name="date"
+                      label="Date"
+                      placeholder="Select date here"
+                      required
+                      markAsRequired
+                      type="date"
+                    />
                   </Grid>
                 </Grid>
                 <Grid item xs={12} lg={6}>

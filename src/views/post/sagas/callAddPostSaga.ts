@@ -9,15 +9,23 @@ import { db } from '../../../config/firebase';
 import { FirebaseCollections } from '../../../utils/constants';
 
 async function callApi(data: Post) {
-  const { category, author } = data;
+  const { category, author, content } = data;
 
   const categoryReference = doc(db, FirebaseCollections.CATEGORIES, category);
   const authorReference = doc(db, FirebaseCollections.AUTHORS, author);
+
+  const contentRef = await addDoc(
+    collection(db, FirebaseCollections.POST_CONTENTS),
+    {
+      content,
+    },
+  );
 
   await addDoc(collection(db, FirebaseCollections.POSTS), {
     ...data,
     category: categoryReference,
     author: authorReference,
+    content: contentRef,
   });
 }
 
